@@ -23,7 +23,6 @@ public class MajorController {
 	private MajorService majorService;
 
 	public MajorController(MajorService majorService) {
-		super();
 		this.majorService = majorService;
 	}
 

@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.parvizasad.deanshipMS.entities.Major;
 import com.parvizasad.deanshipMS.entities.Person;
 import com.parvizasad.deanshipMS.repository.PersonRepository;
 

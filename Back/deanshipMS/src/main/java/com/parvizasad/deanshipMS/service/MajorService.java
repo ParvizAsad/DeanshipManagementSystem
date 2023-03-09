@@ -33,7 +33,7 @@ public class MajorService {
 	@Transactional
 	public ResponseEntity<Object> createMajor(Major newMajor) {
 		if (majorRepository.existsCurrentMajorByName(newMajor.getName())) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Bu ixtisas artıq yaradılıb!"); // or anything you want
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Bu ixtisas artıq yaradılıb!");
 		} else {
 			majorRepository.save(newMajor);
 			return ResponseEntity.ok("Uğurlu əməliyyat!");
@@ -77,9 +77,9 @@ public class MajorService {
 	}
 
 	public ResponseEntity<Object> deleteById(Long majorId) {
-		Major person =  majorRepository.findById(majorId).orElse(null);
-		if (person != null) {
-			person.isDelete = true;
+		Major major =  majorRepository.findById(majorId).orElse(null);
+		if (major != null) {
+			major.isDelete = true;
 			return ResponseEntity.ok("Uğurlu əməliyyat!");
 		} else {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Bu adda ixtisas mövcud deyildir!");

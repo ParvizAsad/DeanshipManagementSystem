@@ -20,7 +20,8 @@ import lombok.Setter;
 public class Position {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Long id;
+	public Long id;
 	
-	String name;
+	public	String name;
+	public boolean isDelete= false;
 }
