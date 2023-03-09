@@ -23,7 +23,7 @@ public class LessonService {
 	public List<Lesson> getAllLessons() {
 		List<Lesson> existLesson = new ArrayList<>();
 		for (Lesson lesson : lessonRepository.findAll()) {
-			if (lesson.isDelete() == false) {
+			if (lesson.isDelete == false) {
 				existLesson.add(lesson);
 			}
 		}
@@ -33,7 +33,7 @@ public class LessonService {
 	@Transactional
 	public ResponseEntity<Object> createLesson(Lesson newLesson) {
 		if (lessonRepository.existsCurrentLessonByName(newLesson.getName())) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Bu ixtisas artıq yaradılıb!");
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Bu dərs artıq yaradılıb!");
 		} else {
 			lessonRepository.save(newLesson);
 			return ResponseEntity.ok("Uğurlu əməliyyat!");
@@ -45,7 +45,7 @@ public class LessonService {
 		if (lesson != null && lesson.isDelete == false) {
 			return new ResponseEntity<Object>(lesson, HttpStatus.OK);
 		} else {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("İxtisas tapılmadı!");
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Dərs tapılmadı!");
 		}
 	}
 
@@ -69,7 +69,7 @@ public class LessonService {
 			}
 
 		} else {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("İxtisas tapılmadı!");
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Dərs tapılmadı!");
 		}
 	}
 
@@ -79,7 +79,7 @@ public class LessonService {
 			lesson.isDelete = true;
 			return ResponseEntity.ok("Uğurlu əməliyyat!");
 		} else {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Bu adda ixtisas mövcud deyildir!");
+			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Bu adda Dərs mövcud deyildir!");
 		}
 	}
 }

@@ -1,8 +1,4 @@
 package com.parvizasad.deanshipMS.entities;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,8 +6,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
-@Table(name="department")
+@Table(name = "department")
 @Data
 @Getter
 @Setter
@@ -19,7 +20,8 @@ import javax.persistence.Table;
 public class Department {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Long id;
-	
-	String name;
+	public Long id;
+	public String name;
+	public boolean isDeleted = false;
+
 }
