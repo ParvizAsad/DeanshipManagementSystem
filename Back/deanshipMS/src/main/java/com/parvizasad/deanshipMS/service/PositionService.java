@@ -34,7 +34,7 @@ public class PositionService {
 
 	@Transactional
 	public ResponseEntity<Object> createPosition(Position newPosition) {
-		if (positionRepository.findByName(newPosition.getName())) {
+		if (positionRepository.existsCurrentPositionByName(newPosition.getName())) {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Bu Pozisya artıq yaradılıb!");
 		} else {
 			positionRepository.save(newPosition);
@@ -54,7 +54,7 @@ public class PositionService {
 	@Transactional
 	public ResponseEntity<Object> updatePosition(Long positionId, Position newPosition) {
 		Position position = positionRepository.findById(positionId).orElse(null);
-		Position existPosition = positionRepository.existfindByName(newPosition.name).orElse(null);
+		Position existPosition = positionRepository.findByName(newPosition.name).orElse(null);
 		if (position != null && position.isDelete == false) {
 			if (existPosition == null) {
 				position.name = newPosition.name;

@@ -37,7 +37,7 @@ public class MajorController {
 	}
 
 	@GetMapping("/{majorId}")
-	public  ResponseEntity<Object> getById(@PathVariable Long majorId) {
+	public ResponseEntity<Object> getById(@PathVariable Long majorId) {
 		return majorService.getById(majorId);
 	}
 

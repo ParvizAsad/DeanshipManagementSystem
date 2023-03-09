@@ -18,7 +18,7 @@ import com.parvizasad.deanshipMS.service.PositionService;
 
 @CrossOrigin(origins = { "*" }, allowCredentials = "false")
 @RestController
-@RequestMapping("/majors")
+@RequestMapping("/positions")
 public class PositionController {
 	private PositionService positionService;
 

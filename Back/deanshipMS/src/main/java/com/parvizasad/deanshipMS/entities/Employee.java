@@ -36,4 +36,10 @@ public class Employee {
 	@JoinColumn(name="position_id", nullable=false)
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	Position position;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="department_id", nullable=false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	Department department;
+
 }
