@@ -1,30 +1,46 @@
 <div class="container mt-5">
   <div class="row row-cols-1 row-cols-md-5 g-8">
-  
     <div class="col">
       <div class="card">
-        <div class="card-body fa-icon">
-        <fa-icon [icon]="faBook"></fa-icon>
-          <h5 class="card-title">Kafedra</h5>
-        </div>
+        <a routerLink="/department">
+          <div class="card-body fa-icon">
+            <fa-icon [icon]="faBook"></fa-icon>
+            <h5 class="card-title">Kafedra</h5>
+          </div>
+        </a>
       </div>
     </div>
 
     <div class="col">
       <div class="card">
-        <div class="card-body fa-icon">
-        <fa-icon [icon]="faUserGraduate"></fa-icon>
-          <h5 class="card-title">Tələbələr</h5>
-        </div>
+        <a routerLink="/student">
+          <div class="card-body fa-icon">
+            <fa-icon [icon]="faUserGraduate"></fa-icon>
+            <h5 class="card-title">Tələbələr</h5>
+          </div>
+        </a>
       </div>
     </div>
 
     <div class="col">
       <div class="card">
-        <div class="card-body fa-icon">
-        <fa-icon [icon]="faPerson"></fa-icon>
-          <h5 class="card-title">İşçilər</h5>
-        </div>
+        <a routerLink="/employee">
+          <div class="card-body fa-icon">
+            <fa-icon [icon]="faPerson"></fa-icon>
+            <h5 class="card-title">İşçilər</h5>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="col">
+      <div class="card">
+        <a routerLink="/settings">
+          <div class="card-body fa-icon">
+            <fa-icon [icon]="faGears"></fa-icon>
+            <h5 class="card-title">Parametrlər</h5>
+          </div>
+        </a>
       </div>
     </div>
   </div>

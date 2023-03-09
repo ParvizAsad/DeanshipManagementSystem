@@ -13,10 +13,17 @@ import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import { MdbCheckboxModule } from 'mdb-angular-ui-kit/checkbox';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-import { LoginComponent } from './login/login.component'
+import { LoginComponent } from './login/login.component';
+import { EmployeeComponent } from './employee/employee.component';
+import { SettingsComponent } from './settings/settings.component';
+import { RegisterComponent } from './register/register.component'
 const routes: Routes = [
 {path:"student", component:StudentComponent},
 {path:"login", component:LoginComponent},
+{path:"department", component:DepartmentComponent},
+{path:"student", component:StudentComponent},
+{path:"settings", component:SettingsComponent},
+{path:"employee", component:EmployeeComponent},
 {path:"", component:HomeComponent},
 {path:"teacher", component:TeacherComponent}
 ];
@@ -30,7 +37,10 @@ const routes: Routes = [
     TeacherComponent,
     DepartmentComponent,
     CardComponent,
-    LoginComponent
+    LoginComponent,
+    EmployeeComponent,
+    SettingsComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,

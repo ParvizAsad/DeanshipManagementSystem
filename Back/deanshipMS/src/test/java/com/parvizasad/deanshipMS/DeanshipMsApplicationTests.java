@@ -1,4 +1,4 @@
-package com.parviz.deanshipMS;
+package com.parvizasad.deanshipMS;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
