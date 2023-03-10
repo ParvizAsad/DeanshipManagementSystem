@@ -12,17 +12,16 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name="room")
+@Table(name="gender")
 @Data
 @Getter
 @Setter
 @AllArgsConstructor
-public class Room {
+public class Gender {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public	Long id;
 	
-	public	String roomNumber;
-	public	String capacity;
-	public boolean isDelete=false;
+	public	String name;
+public boolean isDelete=false;
 }

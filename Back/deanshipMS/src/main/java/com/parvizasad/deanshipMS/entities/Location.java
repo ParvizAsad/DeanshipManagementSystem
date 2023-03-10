@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -12,17 +13,16 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name="room")
+@Table(name = "location")
 @Data
 @Getter
 @Setter
 @AllArgsConstructor
-public class Room {
+public class Location {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public	Long id;
-	
-	public	String roomNumber;
-	public	String capacity;
-	public boolean isDelete=false;
+	public Long id;
+	public String name;
+	@NotNull
+	public boolean isDelete = false;
 }

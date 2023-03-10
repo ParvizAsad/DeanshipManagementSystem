@@ -16,11 +16,13 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { LoginComponent } from './login/login.component';
 import { EmployeeComponent } from './employee/employee.component';
 import { SettingsComponent } from './settings/settings.component';
-import { RegisterComponent } from './register/register.component'
+import { RegisterComponent } from './register/register.component';
+import { PersonComponent } from './person/person.component'
 const routes: Routes = [
 {path:"student", component:StudentComponent},
 {path:"login", component:LoginComponent},
 {path:"department", component:DepartmentComponent},
+{path:"person", component:PersonComponent},
 {path:"student", component:StudentComponent},
 {path:"settings", component:SettingsComponent},
 {path:"employee", component:EmployeeComponent},
@@ -40,7 +42,8 @@ const routes: Routes = [
     LoginComponent,
     EmployeeComponent,
     SettingsComponent,
-    RegisterComponent
+    RegisterComponent,
+    PersonComponent
   ],
   imports: [
     BrowserModule,

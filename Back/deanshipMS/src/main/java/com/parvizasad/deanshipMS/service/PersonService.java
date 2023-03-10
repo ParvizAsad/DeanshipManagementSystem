@@ -59,9 +59,9 @@ public class PersonService {
 		if (person != null && person.isDelete == false) {
 			if (existPerson == null && existPersonEmail == null) {
 				person.fullName = newPerson.fullName;
-				person.age = newPerson.age;
+				person.birthDate = newPerson.birthDate;
 				person.email = newPerson.email;
-				person.location = newPerson.location;
+				person.setLocation(newPerson.getLocation()); 
 				person.pasportId = newPerson.pasportId;
 				person.phno = newPerson.phno;
 				personRepository.save(person);
@@ -69,9 +69,9 @@ public class PersonService {
 			} else {
 				if (existPerson.id == personId && existPersonEmail.id == personId) {
 					person.fullName = newPerson.fullName;
-					person.age = newPerson.age;
+					person.birthDate = newPerson.birthDate;
 					person.email = newPerson.email;
-					person.location = newPerson.location;
+					person.setLocation(newPerson.getLocation()); 
 					person.pasportId = newPerson.pasportId;
 					person.phno = newPerson.phno;
 					personRepository.save(person);
