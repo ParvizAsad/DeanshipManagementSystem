@@ -2,7 +2,6 @@ package com.parvizasad.deanshipMS.controller;
 
 import java.util.List;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -31,24 +30,29 @@ public class LocationController {
 		return locationService.getAllLocation();
 	}
 
+//	@PostMapping
+//	public ResponseEntity<Object> createLocation(@RequestBody Location newLocation) {
+//		return locationService.createLocation(newLocation);
+//	}
+
 	@PostMapping
-	public ResponseEntity<Object> createLocation(@RequestBody Location newLocation) {
+	public Object createLocation(@RequestBody Location newLocation) {
 		return locationService.createLocation(newLocation);
 	}
-
+	
 	@GetMapping("/{locationId}")
-	public ResponseEntity<Object> getById(@PathVariable Long locationId) {
+	public Object getById(@PathVariable Long locationId) {
 		return locationService.getById(locationId);
 	}
 
 	@PutMapping("/{locationId}")
-	public ResponseEntity<Object> updateLocation(@PathVariable Long locationId, @RequestBody Location newLocation) {
+	public Object updateLocation(@PathVariable Long locationId, @RequestBody Location newLocation) {
 		return locationService.updateLocation(locationId, newLocation);
 	}
 
 	@DeleteMapping("/{locationId}")
-	public void deleteLocation(@PathVariable Long locationId) {
-		locationService.deleteById(locationId);
+	public Object deleteLocation(@PathVariable Long locationId) {
+	return locationService.deleteById(locationId);
 	}
 
 }

@@ -36,7 +36,7 @@ public class LessonService {
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Bu dərs artıq yaradılıb!");
 		} else {
 			lessonRepository.save(newLesson);
-			return ResponseEntity.ok("Uğurlu əməliyyat!");
+			return ResponseEntity.ok("");
 		}
 	}
 

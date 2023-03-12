@@ -1,12 +1,8 @@
 package com.parvizasad.deanshipMS.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.parvizasad.deanshipMS.entities.Location;
@@ -22,64 +18,69 @@ public class LocationService {
 	}
 	
 	public List<Location> getAllLocation() {
-		List<Location> Location = new ArrayList<>();
-		for (Location location : locationRepository.findAll()) {
-			if (location.isDelete == false) {
-				Location.add(location);
-			}
-		}
+		List<Location> Location =  locationRepository.findAll();
+//		for (Location location : locationRepository.findAll()) {
+//			if (location.isDelete == false) {
+//				Location.add(location);
+//			}
+//		}
 		return Location;
 	}
 
-	@Transactional
-	public ResponseEntity<Object> createLocation(Location newLocation) {
-		if (locationRepository.existsCurrentLocationByName(newLocation.getName())) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Bu Location artıq yaradılıb!");
-		} else {
-			locationRepository.save(newLocation);
-			return ResponseEntity.ok("Uğurlu əməliyyat!");
-		}
+	public Object createLocation(Location newLocation) {
+		Location existingLocation = locationRepository.findByName(newLocation.getName()).orElse(null);
+	    if(newLocation.name.length() != 0 ){
+	    	if(existingLocation == null) {
+	    			locationRepository.save(newLocation);
+	    		return HttpStatus.OK;
+	    	}
+	    	else {
+	    		return  HttpStatus.BAD_REQUEST;
+	    	}
+	    }
+	    else return  HttpStatus.NOT_FOUND;
+		
+	
 	}
-
-	public ResponseEntity<Object> getById(Long locationId) {
+	
+	public Object getById(Long locationId) {
 		Location location = locationRepository.findById(locationId).orElse(null);
 		if (location != null && location.isDelete == false) {
-			return new ResponseEntity<Object>(location, HttpStatus.OK);
+			return location;
 		} else {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Location tapılmadı!");
+			return HttpStatus.NOT_FOUND;
 		}
 	}
 	
-	@Transactional
-	public ResponseEntity<Object> updateLocation(Long locationId, Location newLocation) {
+	public Object updateLocation(Long locationId, Location newLocation) {
 		Location location = locationRepository.findById(locationId).orElse(null);
 		Location existLocation = locationRepository.findByName(newLocation.name).orElse(null);
 		if (location != null && location.isDelete == false) {
 			if (existLocation == null) {
 				location.name = newLocation.name;
-				locationRepository.save(existLocation);
-				return ResponseEntity.ok("Uğurlu əməliyyat!");
+				locationRepository.save(location);
+				return HttpStatus.OK;
 			} else {
 				if (existLocation.id != locationId) {
-					return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Bu Location mövcuddur!");
+					return HttpStatus.BAD_REQUEST;//mövcuddur
 				} else {
 					location.name = newLocation.name;
 					locationRepository.save(location);
-					return ResponseEntity.ok("Uğurlu əməliyyat!");
+					return HttpStatus.OK;
 				}
 			}
 		} else {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Location tapılmadı!");
+			return HttpStatus.NOT_FOUND;//tapılmadı
 		}
 	}
 
-	public ResponseEntity<Object> deleteById(Long locationId) {
+	public Object deleteById(Long locationId) {
 		Location location = locationRepository.findById(locationId).orElse(null);
 		if (location != null) {
 			location.isDelete = true;
-			return ResponseEntity.ok("Uğurlu əməliyyat!");
+			return HttpStatus.OK;
 		} else {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Bu adda location mövcud deyildir!");
+			return HttpStatus.NOT_FOUND;
 		}
 	}
 	

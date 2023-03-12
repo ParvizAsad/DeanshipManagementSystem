@@ -1,0 +1,25 @@
+<app-navbar></app-navbar>
+<div class="container mt-5">
+      <button type="button" class="btn btn-success me-3" routerLink="/locationCreate">Create</button>
+<table class="table ">
+  <thead>
+    <tr>
+      <th scope="col">Location Name</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody >
+    <tr *ngFor="let item of locations;">
+      <td>{{item.name}}</td>
+      <td >
+      <button type="button" class="btn btn-primary me-3"  
+      [routerLink]="['/locationEdit', item.id]"
+      >Edit      </button>
+      <button type="button" class="btn btn-danger me-3" 
+      [routerLink]="['/locationDelete', item.id]"
+      >Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>
