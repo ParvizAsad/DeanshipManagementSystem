@@ -67,7 +67,7 @@ this.locationService.updateLocation(f.value.name,this.id).subscribe(
       console.log('ok');
       this.alertService.success('location yeniləndi!');
       this.refreshLocation();
-      this.router.navigate(['/location']);
+      this.router.navigate(['/locations']);
     } else {
       console.log(data)
       this.alertService.warning("Bilinməyən problem baş verdi detallarına console hissədən baxın");

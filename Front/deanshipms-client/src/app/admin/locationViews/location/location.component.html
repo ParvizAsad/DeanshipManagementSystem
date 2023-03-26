@@ -1,6 +1,42 @@
 <app-navbar></app-navbar>
 <div class="container mt-5">
       <button type="button" class="btn btn-success me-3" routerLink="/locationCreate">Create</button>
+       <div class="btn-group btn-group-toggle demoFroms" data-toggle="buttons">
+    <label class="btn btn-secondary active">
+      <input
+        type="radio"
+        value="All"
+        name="options"
+        id="All"
+        autocomplete="off"
+        checked
+        (change)="onItemChange('All')"
+      />
+      All
+    </label>
+    <label class="btn btn-secondary">
+      <input
+        type="radio"
+        value="Active"
+        name="options"
+        id="radio"
+        autocomplete="off"
+        (change)="onItemChange('Active')"
+      />
+      Active
+    </label>
+    <label class="btn btn-secondary">
+      <input
+        type="radio"
+        value="Passiv"
+        name="options"
+        id="radio"
+        autocomplete="off"
+      (change)="onItemChange('Passiv')"
+      />
+      Passiv
+    </label>
+  </div>
 <table class="table ">
   <thead>
     <tr>

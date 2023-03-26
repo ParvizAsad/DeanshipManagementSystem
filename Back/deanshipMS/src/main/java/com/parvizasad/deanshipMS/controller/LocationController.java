@@ -30,20 +30,15 @@ public class LocationController {
 		return locationService.getAllLocation();
 	}
 	
-	@GetMapping("/PassivLocation")
+	@GetMapping("/passivLocation")
 	public List<Location> getAllPassivLocation() {
 		return locationService.getAllPassivLocation();
 	}
 	
-	@GetMapping("/ActiveLocation")
+	@GetMapping("/activeLocation")
 	public List<Location> getAllActiveLocation() {
 		return locationService.getAllActiveLocation();
 	}
-
-//	@PostMapping
-//	public ResponseEntity<Object> createLocation(@RequestBody Location newLocation) {
-//		return locationService.createLocation(newLocation);
-//	}
 
 	@PostMapping
 	public Object createLocation(@RequestBody Location newLocation) {

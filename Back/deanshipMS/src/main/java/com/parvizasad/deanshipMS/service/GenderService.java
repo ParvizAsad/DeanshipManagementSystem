@@ -3,10 +3,7 @@ package com.parvizasad.deanshipMS.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.parvizasad.deanshipMS.entities.Gender;
@@ -21,64 +18,98 @@ public class GenderService {
 	}
 
 	public List<Gender> getAllGender() {
-		List<Gender> existGender = new ArrayList<>();
+		List<Gender> genderList = genderRepository.findAll();
+		return genderList;
+	}
+
+	public List<Gender> getAllActiveGender() {
+		List<Gender> activeGenderList = new ArrayList<Gender>();
 		for (Gender gender : genderRepository.findAll()) {
-			if (gender.isDelete == false) {
-				existGender.add(gender);
+			if (!gender.isDelete) {
+				activeGenderList.add(gender);
 			}
 		}
-		return existGender;
+		return activeGenderList;
 	}
+	
 
-	@Transactional
-	public ResponseEntity<Object> createGender(Gender newGender) {
-		if (genderRepository.existsCurrentGenderByName(newGender.getName())) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Bu gender artıq yaradılıb!");
-		} else {
-			genderRepository.save(newGender);
-			return ResponseEntity.ok("Uğurlu əməliyyat!");
+	
+	public List<Gender> getAllPassivGender() {
+		List<Gender> passivGenderList =new ArrayList<Gender>();
+		for (Gender gender : genderRepository.findAll()) {
+			if (gender.isDelete) {
+				passivGenderList.add(gender);
+			}
 		}
+		return passivGenderList;
+	}
+	
+
+	public Object createGender(Gender newGender) {
+		Gender existingGender = genderRepository.findByName(newGender.getName()).orElse(null);
+		if (newGender.name.length() != 0) {
+			if (existingGender == null) {
+				genderRepository.save(newGender);
+				return HttpStatus.OK;
+			} else {
+				return HttpStatus.BAD_REQUEST;
+			}
+		} else
+			return HttpStatus.NOT_FOUND;
 	}
 
-	public ResponseEntity<Object> getById(Long genderId) {
+	public Object getById(Long genderId) {
 		Gender gender = genderRepository.findById(genderId).orElse(null);
 		if (gender != null && gender.isDelete == false) {
-			return new ResponseEntity<Object>(gender, HttpStatus.OK);
+			return gender;
 		} else {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Gender tapılmadı!");
+			return HttpStatus.NOT_FOUND;
 		}
 	}
-
-	@Transactional
-	public ResponseEntity<Object> updateGender(Long genderId, Gender newGender) {
+	
+	public Object updateGender(Long  genderId, Gender newGender) {
 		Gender gender = genderRepository.findById(genderId).orElse(null);
 		Gender existGender = genderRepository.findByName(newGender.name).orElse(null);
 		if (gender != null && gender.isDelete == false) {
 			if (existGender == null) {
-				gender.name = newGender.name;
-				genderRepository.save(existGender);
-				return ResponseEntity.ok("Uğurlu əməliyyat!");
+				if (newGender.name.length() != 0) {
+					gender.name = newGender.name;
+					genderRepository.save(gender);
+					return HttpStatus.OK;
+				} else {
+					return HttpStatus.BAD_REQUEST;
+				}
 			} else {
 				if (existGender.id != genderId) {
-					return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Bu gender mövcuddur!");
+					return HttpStatus.BAD_REQUEST;// mövcuddur
 				} else {
 					gender.name = newGender.name;
 					genderRepository.save(gender);
-					return ResponseEntity.ok("Uğurlu əməliyyat!");
+					return HttpStatus.OK;
 				}
 			}
 		} else {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Gender tapılmadı!");
+			return HttpStatus.NOT_FOUND;// tapılmadı
 		}
 	}
 
-	public ResponseEntity<Object> deleteById(Long genderId) {
+	public Object deleteById(Long genderId) {
 		Gender gender = genderRepository.findById(genderId).orElse(null);
 		if (gender != null) {
-			gender.isDelete = true;
-			return ResponseEntity.ok("Uğurlu əməliyyat!");
+			if (!gender.isDelete()) {
+				System.out.println("false");
+				gender.setDelete(true);
+				genderRepository.save(gender);
+				return HttpStatus.OK;
+			} else {
+				System.out.println("true");
+				gender.setDelete(false);
+				genderRepository.save(gender);
+				return HttpStatus.OK;
+			}
 		} else {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Bu adda Gender mövcud deyildir!");
+			return HttpStatus.NOT_FOUND;// tapilmadi
 		}
 	}
+
 }

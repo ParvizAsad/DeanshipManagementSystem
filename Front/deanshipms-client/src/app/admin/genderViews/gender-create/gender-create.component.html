@@ -5,9 +5,9 @@
     <!-- Name input -->
     <div class="form-outline">
       <label class="form-label" for="form8Example3">Gender name</label>
-      <input type="text" id="form8Example3" class="form-control" />
+      <input type="text" id="form8Example3" class="form-control" [(ngModel)]="gender.name"  />
     </div>
-  <button type="button" class="btn btn-success me-3 mt-2" routerLink="/gender">Create</button>
+  <button (click)="createGender()" class="btn btn-success me-3 mt-2" >Create</button>
   </div>
   </div>
 </div>

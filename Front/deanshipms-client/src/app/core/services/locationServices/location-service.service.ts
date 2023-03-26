@@ -7,17 +7,25 @@ import { Location } from '../../models/Location.models';
   providedIn: 'root'
 })
 export class LocationServiceService {
-// location!:CreateLocation;
-  constructor(private http:HttpClient) { }
- path:string="http://localhost:8082/locations/";
+  // location!:CreateLocation;
+  constructor(private http: HttpClient) { }
+  path: string = "http://localhost:8082/locations/";
 
-getAllLocations(): Observable<any[]> {
-  return this.http.get<Location[]>(this.path)
-}
+  getAllLocations(): Observable<any[]> {
+    return this.http.get<Location[]>(this.path)
+  }
 
-getById(id:number):Observable<Location>{
-return this.http.get<Location>(this.path + id)
-}
+  getAllActiveLocation(): Observable<any[]> {
+    return this.http.get<Location[]>(this.path + "activeLocation")
+  }
+
+  getAllPassiveLocation(): Observable<any[]> {
+    return this.http.get<Location[]>(this.path + "passivLocation")
+  }
+
+  getById(id: number): Observable<Location> {
+    return this.http.get<Location>(this.path + id)
+  }
 
   createLocation(location: Location): Observable<any> {
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
@@ -26,13 +34,13 @@ return this.http.get<Location>(this.path + id)
     return this.http.post<Location>(this.path, body, { headers });
   }
 
-  updateLocation(location:Location, id:number):Observable<any>{
+  updateLocation(location: Location, id: number): Observable<any> {
     console.log(location)
     return this.http.put<Location>(this.path + id, location)
   }
 
-  deleteLocation(id:number):Observable<any>{
-    return this.http.delete<Location>(this.path+id)
+  deleteLocation(id: number): Observable<any> {
+    return this.http.delete<Location>(this.path + id)
   }
 
 }

@@ -49,7 +49,7 @@ export class LocationCreateComponent implements OnInit {
           console.log('ok');
           this.alertService.success('Yeni location əlavə edildi!');
           this.refreshLocation();
-          this.router.navigate(['/location']);
+          this.router.navigate(['/locations']);
         } else {
            this.alertService.warning(data);
           console.log(data)

@@ -2,7 +2,6 @@ package com.parvizasad.deanshipMS.controller;
 
 import java.util.List;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.parvizasad.deanshipMS.entities.Gender;
 import com.parvizasad.deanshipMS.service.GenderService;
 
-@CrossOrigin(origins = { "*" }, allowCredentials = "false")
+@CrossOrigin(origins = { "*" })
 @RestController
 @RequestMapping("/genders")
 public class GenderController {
@@ -30,25 +29,35 @@ public class GenderController {
 	public List<Gender> getAllGender() {
 		return genderService.getAllGender();
 	}
-
-	@PostMapping
-	public ResponseEntity<Object> createGender(@RequestBody Gender newGender) {
-		return genderService.createGender(newGender);
+	
+	@GetMapping("/passivGender")
+	public List<Gender> getAllPassivGender() {
+		return genderService.getAllPassivGender();
+	}
+	
+	@GetMapping("/activeGender")
+	public List<Gender> getAllActiveGender() {
+		return genderService.getAllActiveGender();
 	}
 
+	@PostMapping
+	public Object createGender(@RequestBody Gender newGender) {
+		return genderService.createGender(newGender);
+	}
+	
 	@GetMapping("/{genderId}")
-	public ResponseEntity<Object> getById(@PathVariable Long genderId) {
+	public Object getById(@PathVariable Long genderId) {
 		return genderService.getById(genderId);
 	}
 
 	@PutMapping("/{genderId}")
-	public ResponseEntity<Object> updateGender(@PathVariable Long genderId, @RequestBody Gender newGender) {
+	public Object updateGender(@PathVariable Long genderId, @RequestBody Gender newGender) {
 		return genderService.updateGender(genderId, newGender);
 	}
 
 	@DeleteMapping("/{genderId}")
-	public void deleteGender(@PathVariable Long genderId) {
-		genderService.deleteById(genderId);
+	public Object deleteGender(@PathVariable Long genderId) {
+	return genderService.deleteById(genderId);
 	}
 
 }

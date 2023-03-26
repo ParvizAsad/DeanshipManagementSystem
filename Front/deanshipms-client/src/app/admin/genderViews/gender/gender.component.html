@@ -1,22 +1,75 @@
 <app-navbar></app-navbar>
 <div class="container mt-5">
-      <button type="button" class="btn btn-success me-3" routerLink="/genderCreate">Create</button>
-<table class="table ">
-  <caption>List of users</caption>
-  <thead>
-    <tr>
-      <th scope="col">Gender Name</th>
-      <th scope="col">Action</th>
-    </tr>
-  </thead>
-  <tbody >
-    <tr >
-      <td>Otto</td>
-      <td >
-      <button type="button" class="btn btn-primary me-3" routerLink="/genderEdit">Edit</button>
-      <button type="button" class="btn btn-danger me-3" routerLink="/genderDelete">Delete</button>
-      </td>
-    </tr>
-  </tbody>
-</table>
+  <button type="button" class="btn btn-success me-3" routerLink="/genderCreate">
+    Create
+  </button>
+  <div class="btn-group btn-group-toggle demoFroms" data-toggle="buttons">
+    <label class="btn btn-secondary active">
+      <input
+        type="radio"
+        value="All"
+        name="options"
+        id="All"
+        autocomplete="off"
+        checked
+        (change)="onItemChange('All')"
+      />
+      All
+    </label>
+    <label class="btn btn-secondary">
+      <input
+        type="radio"
+        value="Active"
+        name="options"
+        id="radio"
+        autocomplete="off"
+        (change)="onItemChange('Active')"
+      />
+      Active
+    </label>
+    <label class="btn btn-secondary">
+      <input
+        type="radio"
+        value="Passiv"
+        name="options"
+        id="radio"
+        autocomplete="off"
+      (change)="onItemChange('Passiv')"
+      />
+      Passiv
+    </label>
+  </div>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Gender Name</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of genders">
+        <td>{{ item.name }}</td>
+        <td>
+          <button
+            type="button"
+            class="btn btn-primary me-3"
+            [routerLink]="['/genderEdit', item.id]"
+          >
+            Edit
+          </button>
+
+          <button
+            type="button"
+            [ngClass]="
+              item.isDelete ? 'btn btn-success me-3' : 'btn btn-danger  me-3'
+            "
+            (click)="changeActivate(item.id, item.isDelete)"
+          >
+            <h6 *ngIf="item.isDelete">Active</h6>
+            <h6 *ngIf="!item.isDelete">DisActive</h6>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>

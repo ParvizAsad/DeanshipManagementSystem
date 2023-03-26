@@ -32,6 +32,28 @@ export class LocationComponent implements OnInit {
       })
   }
 
+  onItemChange(value: any) {
+    if (value === 'Active') {
+      this.locationService.getAllActiveLocation()
+        .subscribe((data) => {
+          this.locations = data;
+        })
+    }
+    else if(value === 'Passiv') {
+      this.locationService.getAllPassiveLocation()
+        .subscribe((data) => {
+          this.locations = data;
+        })
+    }
+    else if( value === 'All') {
+      this.locationService.getAllLocations()
+        .subscribe(data => {
+          console.log(data)
+          this.locations = data;
+        })
+    }
+  }
+
   changeActivate(id: number, situation:boolean) {
       this.alertService.confirm("Active/Passive", "Bu elementin vəziyyətini dəyişmək istədiyinizdən əminsiniz? Cari vəziyyəti: " + situation,
   () =>{
@@ -45,7 +67,7 @@ export class LocationComponent implements OnInit {
           console.log('ok');
           this.alertService.success('Uğurlu əməliyyat!');
           this.refreshLocation();
-          this.router.navigate(['/location']);
+          this.router.navigate(['/locations']);
         } else {
           console.log(data)
           this.alertService.warning("Bilinməyən problem baş verdi detallarına console hissədən baxın");

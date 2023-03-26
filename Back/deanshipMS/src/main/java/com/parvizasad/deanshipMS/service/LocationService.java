@@ -20,16 +20,11 @@ public class LocationService {
 
 	public List<Location> getAllLocation() {
 		List<Location> Location = locationRepository.findAll();
-//		for (Location location : locationRepository.findAll()) {
-//			if (location.isDelete == false) {
-//				Location.add(location);
-//			}
-//		}
 		return Location;
 	}
 
 	public List<Location> getAllActiveLocation() {
-		List<Location> activeLocationList =new ArrayList();
+		List<Location> activeLocationList =new ArrayList<Location>();
 		for (Location location : locationRepository.findAll()) {
 			if (!location.isDelete) {
 				activeLocationList.add(location);
@@ -39,7 +34,7 @@ public class LocationService {
 	}
 	
 	public List<Location> getAllPassivLocation() {
-		List<Location> passivLocationList =new ArrayList();
+		List<Location> passivLocationList =new ArrayList<Location>();
 		for (Location location : locationRepository.findAll()) {
 			if (location.isDelete) {
 				passivLocationList.add(location);
@@ -59,7 +54,6 @@ public class LocationService {
 			}
 		} else
 			return HttpStatus.NOT_FOUND;
-
 	}
 
 	public Object getById(Long locationId) {
@@ -99,7 +93,6 @@ public class LocationService {
 
 	public Object deleteById(Long locationId) {
 		Location location = locationRepository.findById(locationId).orElse(null);
-		System.out.println(location.getName());
 		if (location != null) {
 			if (!location.isDelete()) {
 				System.out.println("false");
