@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.parvizasad.deanshipMS.entities.Location;
 import com.parvizasad.deanshipMS.service.LocationService;
 
-@CrossOrigin(origins = { "*" }, allowCredentials = "false")
+@CrossOrigin(origins = { "*" })
 @RestController
 @RequestMapping("/locations")
 public class LocationController {
@@ -28,6 +28,16 @@ public class LocationController {
 	@GetMapping
 	public List<Location> getAllLocation() {
 		return locationService.getAllLocation();
+	}
+	
+	@GetMapping("/PassivLocation")
+	public List<Location> getAllPassivLocation() {
+		return locationService.getAllPassivLocation();
+	}
+	
+	@GetMapping("/ActiveLocation")
+	public List<Location> getAllActiveLocation() {
+		return locationService.getAllActiveLocation();
 	}
 
 //	@PostMapping

@@ -2,11 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertifyService } from 'src/app/core/services/alertifyService/alertify.service';
 import { LocationServiceService } from 'src/app/core/services/locationServices/location-service.service';
-import { Location } from 'src/app/core/models/Location';
+
 import { NgForm } from '@angular/forms';
 import {  FormsModule,
   FormGroup,
   FormControl } from '@angular/forms';
+import { Location } from 'src/app/core/models/Location.models';
 
 @Component({
   selector: 'app-location-update',
@@ -15,7 +16,7 @@ import {  FormsModule,
 })
 export class LocationUpdateComponent implements OnInit {
   locations: Location[] = [];
-  location!:Location;
+  location:Location =new Location();
   badreq: any = 'BAD_REQUEST';
   notfound: any = 'NOT_FOUND';
   ok: any = 'OK';
@@ -51,14 +52,14 @@ this.locationService.getById(id).subscribe(
 }
 
 updateLocation(f:NgForm){
-  console.log(f.value);
-this.locationService.updateLocation(f.value,this.id).subscribe(
+this.locationService.updateLocation(f.value.name,this.id).subscribe(
   (data) => {
     console.log(data);
-    console.log(f.value);
+    console.log(f);
+    console.log(f.value.name);
     if (data == this.badreq) {
       console.log('bad');
-      this.alertService.error('Bu adda elemt var!');
+      this.alertService.error('Fərqli adla yenidən cəhd edin!');
     } else if (data === this.notfound) {
       console.log('notF');
       this.alertService.error('Element Tapılmadı');
@@ -68,10 +69,12 @@ this.locationService.updateLocation(f.value,this.id).subscribe(
       this.refreshLocation();
       this.router.navigate(['/location']);
     } else {
-      this.alertService.warning(data);
+      console.log(data)
+      this.alertService.warning("Bilinməyən problem baş verdi detallarına console hissədən baxın");
     }
   },
   (error) => {
+    console.log(error)
     console.log(error.status)
     this.alertService.error("Error code: "+error.status);
   }

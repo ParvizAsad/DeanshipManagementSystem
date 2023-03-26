@@ -14,10 +14,15 @@
       <td >
       <button type="button" class="btn btn-primary me-3"  
       [routerLink]="['/locationEdit', item.id]"
-      >Edit      </button>
-      <button type="button" class="btn btn-danger me-3" 
-      [routerLink]="['/locationDelete', item.id]"
-      >Delete</button>
+      >Edit</button>
+      
+      <button type="button"
+       [ngClass]="item.isDelete ? 'btn btn-success me-3' : 'btn btn-danger  me-3'"
+       (click)="changeActivate(item.id, item.isDelete)"
+      >
+      <h4 *ngIf="item.isDelete;" >Active</h4>
+      <h4 *ngIf="!item.isDelete;" >DisActive</h4>
+      </button>
       </td>
     </tr>
   </tbody>

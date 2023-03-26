@@ -15,4 +15,9 @@ error(message:string){
 warning(message:string){
   alertify.warning(message);
 }
+
+confirm(title:string ,message:string, onok:() => any, oncancel:() => any ){
+  alertify.confirm(title, message, onok, oncancel);
+}
+
 }

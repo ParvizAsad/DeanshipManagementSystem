@@ -1,5 +1,6 @@
 package com.parvizasad.deanshipMS.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -16,9 +17,9 @@ public class LocationService {
 	public LocationService(LocationRepository locationRepository) {
 		this.locationRepository = locationRepository;
 	}
-	
+
 	public List<Location> getAllLocation() {
-		List<Location> Location =  locationRepository.findAll();
+		List<Location> Location = locationRepository.findAll();
 //		for (Location location : locationRepository.findAll()) {
 //			if (location.isDelete == false) {
 //				Location.add(location);
@@ -27,22 +28,40 @@ public class LocationService {
 		return Location;
 	}
 
-	public Object createLocation(Location newLocation) {
-		Location existingLocation = locationRepository.findByName(newLocation.getName()).orElse(null);
-	    if(newLocation.name.length() != 0 ){
-	    	if(existingLocation == null) {
-	    			locationRepository.save(newLocation);
-	    		return HttpStatus.OK;
-	    	}
-	    	else {
-	    		return  HttpStatus.BAD_REQUEST;
-	    	}
-	    }
-	    else return  HttpStatus.NOT_FOUND;
-		
-	
+	public List<Location> getAllActiveLocation() {
+		List<Location> activeLocationList =new ArrayList();
+		for (Location location : locationRepository.findAll()) {
+			if (!location.isDelete) {
+				activeLocationList.add(location);
+			}
+		}
+		return activeLocationList;
 	}
 	
+	public List<Location> getAllPassivLocation() {
+		List<Location> passivLocationList =new ArrayList();
+		for (Location location : locationRepository.findAll()) {
+			if (location.isDelete) {
+				passivLocationList.add(location);
+			}
+		}
+		return passivLocationList;
+	}
+	
+	public Object createLocation(Location newLocation) {
+		Location existingLocation = locationRepository.findByName(newLocation.getName()).orElse(null);
+		if (newLocation.name.length() != 0) {
+			if (existingLocation == null) {
+				locationRepository.save(newLocation);
+				return HttpStatus.OK;
+			} else {
+				return HttpStatus.BAD_REQUEST;
+			}
+		} else
+			return HttpStatus.NOT_FOUND;
+
+	}
+
 	public Object getById(Long locationId) {
 		Location location = locationRepository.findById(locationId).orElse(null);
 		if (location != null && location.isDelete == false) {
@@ -51,18 +70,22 @@ public class LocationService {
 			return HttpStatus.NOT_FOUND;
 		}
 	}
-	
+
 	public Object updateLocation(Long locationId, Location newLocation) {
 		Location location = locationRepository.findById(locationId).orElse(null);
 		Location existLocation = locationRepository.findByName(newLocation.name).orElse(null);
 		if (location != null && location.isDelete == false) {
 			if (existLocation == null) {
-				location.name = newLocation.name;
-				locationRepository.save(location);
-				return HttpStatus.OK;
+				if (newLocation.name.length() != 0) {
+					location.name = newLocation.name;
+					locationRepository.save(location);
+					return HttpStatus.OK;
+				} else {
+					return HttpStatus.BAD_REQUEST;
+				}
 			} else {
 				if (existLocation.id != locationId) {
-					return HttpStatus.BAD_REQUEST;//mövcuddur
+					return HttpStatus.BAD_REQUEST;// mövcuddur
 				} else {
 					location.name = newLocation.name;
 					locationRepository.save(location);
@@ -70,18 +93,28 @@ public class LocationService {
 				}
 			}
 		} else {
-			return HttpStatus.NOT_FOUND;//tapılmadı
+			return HttpStatus.NOT_FOUND;// tapılmadı
 		}
 	}
 
 	public Object deleteById(Long locationId) {
 		Location location = locationRepository.findById(locationId).orElse(null);
+		System.out.println(location.getName());
 		if (location != null) {
-			location.isDelete = true;
-			return HttpStatus.OK;
+			if (!location.isDelete()) {
+				System.out.println("false");
+				location.setDelete(true);
+				locationRepository.save(location);
+				return HttpStatus.OK;
+			} else {
+				System.out.println("true");
+				location.setDelete(false);
+				locationRepository.save(location);
+				return HttpStatus.OK;
+			}
 		} else {
-			return HttpStatus.NOT_FOUND;
+			return HttpStatus.NOT_FOUND;// tapilmadi
 		}
 	}
-	
+
 }
