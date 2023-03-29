@@ -6,7 +6,6 @@ import { Location } from '../../models/Location.models';
   providedIn: 'root'
 })
 export class LocationServiceService {
-  // location!:CreateLocation;
   constructor(private http: HttpClient) { }
   path: string = "http://localhost:8082/locations/";
 

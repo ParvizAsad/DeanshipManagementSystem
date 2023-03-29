@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,12 +17,14 @@ import lombok.Setter;
 @Data
 @Getter
 @Setter
-@AllArgsConstructor
 public class Group {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	Long id;
+	public Long id;
 	
-	String name;
+	@NotEmpty
+	public String name;
+	
+	public boolean isDelete = false;
 }

@@ -3,38 +3,38 @@ import { Router } from '@angular/router';
 import { AlertifyService } from 'src/app/core/services/alertifyService/alertify.service';
 import { HttpResponse } from '@angular/common/http';
 import { response } from 'express';
-import { DepartmentService } from 'src/app/core/services/department service/department.service';
-import { Department } from 'src/app/core/models/Department.models';
+import { Group } from 'src/app/core/models/Group.models';
+import { GroupServiceService } from 'src/app/core/services/groupService/group-service.service';
 
 @Component({
-  selector: 'app-departmen-create',
-  templateUrl: './departmen-create.component.html',
-  styleUrls: ['./departmen-create.component.scss']
+  selector: 'app-group-create',
+  templateUrl: './group-create.component.html',
+  styleUrls: ['./group-create.component.scss']
 })
-export class DepartmenCreateComponent implements OnInit {
+export class GroupCreateComponent implements OnInit {
   title = 'httpGet Example';
-  departments: Department[] = [];
-  department: Department = new Department();
+  groups: Group[] = [];
+  group: Group = new Group();
   badreq: any = 'BAD_REQUEST';
   notfound: any = 'NOT_FOUND';
   ok: any = 'OK';
   errorText: string = "";
   constructor(
-    private departmentService: DepartmentService,
+    private groupService: GroupServiceService,
     private alertService: AlertifyService,
     private router: Router
   ) { }
 
   ngOnInit() {
-    this.refreshDepartment();
+    this.refreshGroup();
   }
   addError(error: any) {
     this.errorText = error.message;
   }
-  refreshDepartment() {
-    this.departmentService.getAllDepartment().subscribe((data) => {
+  refreshGroup() {
+    this.groupService.getAllGroups().subscribe((data) => {
       console.log(data);
-      this.departments = data;
+      this.groups = data;
     },
       (error) => {
         this.addError(error)
@@ -42,11 +42,11 @@ export class DepartmenCreateComponent implements OnInit {
     );
   }
 
-  createDepartment() {
-    this.departmentService.createDepartment(this.department).subscribe(
+  createGroups() {
+    this.groupService.createGroups(this.group).subscribe(
       (data) => {
         console.log("data: " + data)
-        console.log(this.department);
+        console.log(this.group);
         if (data == this.badreq) {
           console.log('bad');
           this.alertService.error('Bu adda elemt var!');
@@ -55,9 +55,9 @@ export class DepartmenCreateComponent implements OnInit {
           this.alertService.error('Boş saxlanıla bilməz!');
         } else if (data === this.ok) {
           console.log('ok');
-          this.alertService.success('Yeni department əlavə edildi!');
-          this.refreshDepartment();
-          this.router.navigate(['/department']);
+          this.alertService.success('Yeni qrup uğurla yaradıldı!');
+          this.refreshGroup();
+          this.router.navigate(['/groups']);
         } else {
           this.alertService.warning(data);
           console.log(data)
@@ -65,7 +65,7 @@ export class DepartmenCreateComponent implements OnInit {
       },
       (error) => {
         console.log(error)
-        this.alertService.error(error.error.text);
+        this.alertService.error("statusCode: " + error.status);
       }
     );
   }

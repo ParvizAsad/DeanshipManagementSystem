@@ -30,6 +30,11 @@ import { LocationServiceService } from './core/services/locationServices/locatio
 import { DepartmentUpdateComponent } from './admin/departmentViews/department-update/department-update.component';
 import { DepartmentComponent } from './admin/departmentViews/department/department.component';
 import { DepartmenCreateComponent } from './admin/departmentViews/department-create/departmen-create.component';
+import { GroupCreateComponent } from './employeeViews/groupViews/group-create/group-create.component';
+import { GroupUpdateComponent } from './employeeViews/groupViews/group-update/group-update.component';
+import { LessonCreateComponent } from './employeeViews/lessonViews/lesson-create/lesson-create.component';
+import { LessonUpdateComponent } from './employeeViews/lessonViews/lesson-update/lesson-update.component';
+import { GroupComponent } from './employeeViews/groupViews/group/group.component';
 const routes: Routes = [
 {path:"student", component:StudentComponent},
 {path:"login", component:LoginComponent},
@@ -40,6 +45,10 @@ const routes: Routes = [
 {path:"departmentnCreate", component:DepartmenCreateComponent},
 
 {path:"student", component:StudentComponent},
+{path:"groups", component:GroupComponent},
+{path:"groupCreate", component:GroupCreateComponent},
+{path:"groupEdit/:id", component:GroupUpdateComponent},
+
 {path:"genders", component:GenderComponent},
 {path:"genderEdit/:id", component:GenderUpdateComponent},
 {path:"genderCreate", component:GenderCreateComponent},
@@ -75,6 +84,11 @@ const routes: Routes = [
    DepartmenCreateComponent,
    DepartmentComponent,
    DepartmentUpdateComponent,
+   GroupComponent,
+   GroupCreateComponent,
+   GroupUpdateComponent,
+   LessonCreateComponent,
+   LessonUpdateComponent,
   ],
   imports: [
     BrowserModule,
