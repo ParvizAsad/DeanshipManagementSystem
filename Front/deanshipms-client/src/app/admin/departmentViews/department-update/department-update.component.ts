@@ -1,48 +1,46 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AlertifyService } from 'src/app/core/services/alertifyService/alertify.service';
-import { LocationServiceService } from 'src/app/core/services/locationServices/location-service.service';
-
 import { NgForm } from '@angular/forms';
 import {  FormsModule,
   FormGroup,
   FormControl } from '@angular/forms';
-import { Location } from 'src/app/core/models/Location.models';
+import { Department } from 'src/app/core/models/Department.models';
+import { DepartmentService } from 'src/app/core/services/department service/department.service';
 
 @Component({
-  selector: 'app-location-update',
-  templateUrl: './location-update.component.html',
-  styleUrls: ['./location-update.component.scss']
+  selector: 'app-department-update',
+  templateUrl: './department-update.component.html',
+  styleUrls: ['./department-update.component.scss']
 })
-export class LocationUpdateComponent implements OnInit {
-  locations: Location[] = [];
-  location:Location =new Location();
+export class DepartmentUpdateComponent implements OnInit {
+  departments: Department[] = [];
+  department:Department =new Department();
   badreq: any = 'BAD_REQUEST';
   notfound: any = 'NOT_FOUND';
   ok: any = 'OK';
   id!: number;
   errorText: string = "";
   constructor(
-    private locationService: LocationServiceService,
+    private departmentService: DepartmentService,
     private alertService: AlertifyService,
     private route: ActivatedRoute,
     private router: Router
-  ) {
-  }
+  ) { }
 
   ngOnInit() {
     this.route.paramMap.subscribe(
       params =>  this.id = Number(params.get('id'))
     );
     this.getbyId(this.id);
-    this.refreshLocation();
+    this.refreshDepartment();
   }
   addError(error:any){
     this.errorText = error.message;
   }
-   refreshLocation() {
-    this.locationService.getAllLocations().subscribe((data) => {
-      this.locations = data;
+   refreshDepartment() {
+    this.departmentService.getAllDepartment().subscribe((data) => {
+      this.departments = data;
     },
     (error) => {
       console.log(error)
@@ -51,9 +49,9 @@ export class LocationUpdateComponent implements OnInit {
   }
 
 getbyId(id: number ){
-this.locationService.getById(id).subscribe(
+this.departmentService.getById(id).subscribe(
   (  data)=>{
-    this.location=data;
+    this.department=data;
   },
   (error) => {
     console.log(error)
@@ -62,8 +60,8 @@ this.locationService.getById(id).subscribe(
 )
 }
 
-updateLocation(f:NgForm){
-this.locationService.updateLocation(f.value.name,this.id).subscribe(
+updateDepartment(f:NgForm){
+this.departmentService.updateDepartment(f.value.name,this.id).subscribe(
   (data) => {
     console.log(data);
     console.log(f);
@@ -76,9 +74,9 @@ this.locationService.updateLocation(f.value.name,this.id).subscribe(
       this.alertService.error('Element Tapılmadı');
     } else if (data === this.ok) {
       console.log('ok');
-      this.alertService.success('location yeniləndi!');
-      this.refreshLocation();
-      this.router.navigate(['/locations']);
+      this.alertService.success('Department yeniləndi!');
+      this.refreshDepartment();
+      this.router.navigate(['/department']);
     } else {
       console.log(data)
       this.alertService.warning("Bilinməyən problem baş verdi detallarına console hissədən baxın");
@@ -88,8 +86,8 @@ this.locationService.updateLocation(f.value.name,this.id).subscribe(
     console.log(error)
     console.log(error.status)
     this.alertService.error("Error code: "+error.status);
+      console.log(error)
+      this.addError(error)
   }
-)
-}
-
+)} 
 }

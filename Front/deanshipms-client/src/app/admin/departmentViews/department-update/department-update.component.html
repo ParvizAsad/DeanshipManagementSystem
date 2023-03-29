@@ -11,7 +11,7 @@
 </div>
 
 <div class="container">
-  <form novalidate (ngSubmit)="updateLocation(f)" #f="ngForm">
+  <form novalidate (ngSubmit)="updateDepartment(f)" #f="ngForm">
     <fieldset ngModelGroup="name">
       <div class="form-group">
         <label>Name</label>
@@ -19,7 +19,7 @@
           type="text"
           class="form-control"
           name="name"
-          [(ngModel)]="location.name"
+          [(ngModel)]="department.name"
           required
           #name="ngModel"
         />

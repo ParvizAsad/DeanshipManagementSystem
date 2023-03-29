@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { StudentComponent } from './student/student.component';
 import { TeacherComponent } from './teacher/teacher.component';
-import { DepartmentComponent } from './department/department.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { CardComponent } from './card/card.component';
 import { RouterModule, Routes } from '@angular/router';
@@ -28,12 +27,18 @@ import { LocationComponent } from './admin/locationViews/location/location.compo
 import { LocationCreateComponent } from './admin/locationViews/location-create/location-create.component';
 import { LocationUpdateComponent } from './admin/locationViews/location-update/location-update.component';
 import { LocationServiceService } from './core/services/locationServices/location-service.service';
+import { DepartmentUpdateComponent } from './admin/departmentViews/department-update/department-update.component';
+import { DepartmentComponent } from './admin/departmentViews/department/department.component';
+import { DepartmenCreateComponent } from './admin/departmentViews/department-create/departmen-create.component';
 const routes: Routes = [
 {path:"student", component:StudentComponent},
 {path:"login", component:LoginComponent},
-{path:"department", component:DepartmentComponent},
 {path:"personRegistration", component:PersonRegistrationComponent},
 {path:"person", component:PersonComponent},
+{path:"department", component:DepartmentComponent},
+{path:"departmentEdit/:id", component:DepartmentUpdateComponent},
+{path:"departmentnCreate", component:DepartmenCreateComponent},
+
 {path:"student", component:StudentComponent},
 {path:"genders", component:GenderComponent},
 {path:"genderEdit/:id", component:GenderUpdateComponent},
@@ -54,7 +59,6 @@ const routes: Routes = [
     StudentComponent,
     HomeComponent,
     TeacherComponent,
-    DepartmentComponent,
     CardComponent,
     LoginComponent,
     EmployeeComponent,
@@ -67,7 +71,10 @@ const routes: Routes = [
     GenderUpdateComponent,
     LocationComponent,
     LocationCreateComponent,
-    LocationUpdateComponent
+    LocationUpdateComponent,
+   DepartmenCreateComponent,
+   DepartmentComponent,
+   DepartmentUpdateComponent,
   ],
   imports: [
     BrowserModule,

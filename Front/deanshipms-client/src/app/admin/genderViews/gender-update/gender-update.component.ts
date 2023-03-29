@@ -19,6 +19,7 @@ export class GenderUpdateComponent implements OnInit {
   notfound: any = 'NOT_FOUND';
   ok: any = 'OK';
   id!: number;
+  errorText: string = "";
   constructor(
     private genderService: GenderServiceService,
     private alertService: AlertifyService,
@@ -34,10 +35,16 @@ export class GenderUpdateComponent implements OnInit {
     this.getbyId(this.id);
     this.refreshGender();
   }
-
+  addError(error:any){
+    this.errorText = error.message;
+  }
    refreshGender() {
     this.genderService.getAllGenders().subscribe((data) => {
       this.genders = data;
+    },
+    (error) => {
+      console.log(error)
+      this.addError(error)
     });
   }
 
@@ -45,6 +52,10 @@ getbyId(id: number ){
 this.genderService.getById(id).subscribe(
   (  data)=>{
     this.gender=data;
+  },
+  (error) => {
+    console.log(error)
+    this.addError(error)
   }
 )
 }
@@ -76,7 +87,5 @@ this.genderService.updateGender(f.value.name,this.id).subscribe(
     console.log(error.status)
     this.alertService.error("Error code: "+error.status);
   }
-)
-}
-
+)} 
 }

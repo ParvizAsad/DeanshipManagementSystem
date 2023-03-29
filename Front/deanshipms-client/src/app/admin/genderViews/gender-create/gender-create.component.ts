@@ -17,27 +17,33 @@ export class GenderCreateComponent implements OnInit {
   badreq: any = 'BAD_REQUEST';
   notfound: any = 'NOT_FOUND';
   ok: any = 'OK';
+  errorText: string = "";
   constructor(
     private genderService: GenderServiceService,
     private alertService: AlertifyService,
     private router: Router
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.refreshGender();
   }
-
+  addError(error: any) {
+    this.errorText = error.message;
+  }
   refreshGender() {
     this.genderService.getAllGenders().subscribe((data) => {
       console.log(data);
       this.genders = data;
-    });
+    },
+      (error) => {
+        this.addError(error)
+      });
   }
 
   createGender() {
     this.genderService.createGender(this.gender).subscribe(
       (data) => {
-        console.log("data: " +data)
+        console.log("data: " + data)
         console.log(this.gender);
         if (data == this.badreq) {
           console.log('bad');
@@ -51,7 +57,7 @@ export class GenderCreateComponent implements OnInit {
           this.refreshGender();
           this.router.navigate(['/genders']);
         } else {
-           this.alertService.warning(data);
+          this.alertService.warning(data);
           console.log(data)
         }
       },

@@ -3,10 +3,7 @@ package com.parvizasad.deanshipMS.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.parvizasad.deanshipMS.entities.Department;
@@ -20,66 +17,96 @@ public class DepartmentService {
 		this.departmentRepository = departmentRepository;
 	}
 
-	public List<Department> getAllDeparments() {
-		List<Department> existDepartment = new ArrayList<>();
+	public List<Department> getAllDepartment() {
+		List<Department> allDepartmens = departmentRepository.findAll();
+		return allDepartmens;
+	}
+
+	public List<Department> getAllActiveDepartment() {
+		List<Department> activeDepartmentList =new ArrayList<Department>();
 		for (Department department : departmentRepository.findAll()) {
-			if (department.isDeleted == false) {
-				existDepartment.add(department);
+			if (!department.isDeleted) {
+				activeDepartmentList.add(department);
 			}
 		}
-		return existDepartment;
+		return activeDepartmentList;
 	}
-
-	@Transactional
-	public ResponseEntity<Object> createDepartment(Department newDepartment) {
-		if (departmentRepository.existsCurrentDepartmentByName(newDepartment.getName())) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Bu fakultə artıq yaradılıb!");
-		} else {
-			departmentRepository.save(newDepartment);
-			return ResponseEntity.ok("Uğurlu əməliyyat!");
+	
+	public List<Department> getAllPassivDepartment() {
+		List<Department> passivDepartmentList =new ArrayList<Department>();
+		for (Department department : departmentRepository.findAll()) {
+			if (department.isDeleted) {
+				passivDepartmentList.add(department);
+			}
 		}
+		return passivDepartmentList;
 	}
-
-	public ResponseEntity<Object> getById(Long departmentId) {
-		Department department = departmentRepository.findById(departmentId).orElse(null);
-		if (department != null && department.isDeleted == false) {
-			return new ResponseEntity<Object>(department, HttpStatus.OK);
-		} else {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Dərs tapılmadı!");
-		}
-	}
-
-	@Transactional
-	public ResponseEntity<Object> updateDepartment(Long departmentId, Department newdeDepartment) {
-		Department department = departmentRepository.findById(departmentId).orElse(null);
-		Department existdepartment = departmentRepository.findByName(newdeDepartment.name).orElse(null);
-		if (department != null && department.isDeleted == false) {
-			if (existdepartment == null) {
-				department.name = newdeDepartment.name;
-				departmentRepository.save(department);
-				return ResponseEntity.ok("Uğurlu əməliyyat!");
+	
+	public Object createDepartment(Department newDepartment) {
+		Department existingDepartment = departmentRepository.findByName(newDepartment.getName()).orElse(null);
+		if (newDepartment.name.length() != 0) {
+			if (existingDepartment == null) {
+				departmentRepository.save(newDepartment);
+				return HttpStatus.OK;
 			} else {
-				if (existdepartment.id != departmentId) {
-					return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Bu adda fakultə mövcuddur!");
-				} else {
-					department.name = newdeDepartment.name;
-					departmentRepository.save(department);
-					return ResponseEntity.ok("Uğurlu əməliyyat!");
-				}
+				return HttpStatus.BAD_REQUEST;
 			}
-
-		} else {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Fakultə tapılmadı!");
-		}
+		} else
+			return HttpStatus.NOT_FOUND;
 	}
 
-	public ResponseEntity<Object> deleteById(Long departmentId) {
+
+	public Object getById(Long departmentId) {
 		Department department = departmentRepository.findById(departmentId).orElse(null);
 		if (department != null) {
-			department.isDeleted = true;
-			return ResponseEntity.ok("Uğurlu əməliyyat!");
+			return department;
 		} else {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Bu adda fakultə mövcud deyildir!");
+			return HttpStatus.NOT_FOUND;
 		}
 	}
+	
+	public Object updateDepartment(Long departmentId, Department newDepartment) {
+		Department department = departmentRepository.findById(departmentId).orElse(null);
+		Department existDepartment = departmentRepository.findByName(newDepartment.name).orElse(null);
+		if (department != null) {
+			if (existDepartment == null) {
+				if (newDepartment.name.length() != 0) {
+					department.name = newDepartment.name;
+					departmentRepository.save(department);
+					return HttpStatus.OK;
+				} else {
+					return HttpStatus.BAD_REQUEST;
+				}
+			} else {
+				if (existDepartment.id != departmentId) {
+					return HttpStatus.BAD_REQUEST;// mövcuddur
+				} else {
+					department.name = newDepartment.name;
+					departmentRepository.save(department);
+					return HttpStatus.OK;
+				}
+			}
+		} else {
+			return HttpStatus.NOT_FOUND;// tapılmadı
+		}
+	}
+	
+
+	public Object deleteById(Long departmentId) {
+		Department department = departmentRepository.findById(departmentId).orElse(null);
+		if (department != null) {
+			if (!department.isDeleted()) {
+				department.setDeleted(true);
+				departmentRepository.save(department);
+				return HttpStatus.OK;
+			} else {
+				department.setDeleted(false);
+				departmentRepository.save(department);
+				return HttpStatus.OK;
+			}
+		} else {
+			return HttpStatus.NOT_FOUND;// tapilmadi
+		}
+	}
+
 }

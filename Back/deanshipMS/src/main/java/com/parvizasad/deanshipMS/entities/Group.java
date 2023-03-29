@@ -12,7 +12,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name="person")
+@Table(name="groups")
 @Data
 @Getter
 @Setter

@@ -1,65 +1,72 @@
 import { Component, OnInit } from '@angular/core';
-import { LocationServiceService } from 'src/app/core/services/locationServices/location-service.service';
-import { Location } from 'src/app/core/models/Location.models';
 import { AlertifyService } from 'src/app/core/services/alertifyService/alertify.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { DepartmentService } from 'src/app/core/services/department service/department.service';
+import { Department } from 'src/app/core/models/Department.models';
+
 @Component({
-  selector: 'app-location',
-  templateUrl: './location.component.html',
-  styleUrls: ['./location.component.scss']
+  selector: 'app-department',
+  templateUrl: './department.component.html',
+  styleUrls: ['./department.component.scss']
 })
-export class LocationComponent implements OnInit {
+export class DepartmentComponent implements OnInit {
   title = 'httpGet Example';
-  locations: Location[] = [];
-  location!: Location;
+  departments: Department[] = [];
+  department!: Department;
   badreq: any = 'BAD_REQUEST';
   notfound: any = 'NOT_FOUND';
   ok: any = 'OK';
   loading: boolean = true;
   errorText: string = "";
-  constructor(private locationService: LocationServiceService,
+  constructor(private departmentService: DepartmentService,
     private alertService: AlertifyService,
     private route: ActivatedRoute,
     private router: Router) { }
 
   ngOnInit() {
-    this.refreshLocation()
-    console.log(this.locations)
+    console.log(this.loading)
+    this.refreshDepartment()
   }
+
   addError(error: any) {
     this.errorText = error.message;
   }
-  refreshLocation() {
-    this.locationService.getAllLocations()
+
+  refreshDepartment() {
+    this.loading = true
+    this.departmentService.getAllDepartment()
       .subscribe(data => {
-            console.log(data)
-            this.loading = false
-        this.locations = data;
+        console.log(data)
+        this.loading = false
+        this.departments = data;
       },
         (error) => {
           this.loading = false
+          console.log(error)
           this.addError(error)
-        })
+        }
+      )
   }
 
   onItemChange(value: any) {
+    this.loading = true
     if (value === 'Active') {
-      this.locationService.getAllActiveLocation()
+      this.departmentService.getAllActiveDepartment()
         .subscribe((data) => {
           this.loading = false
-          this.locations = data;
-
+          this.departments = data;
         },
           (error) => {
             this.loading = false
             this.addError(error)
-          })
+          }
+        )
     }
     else if (value === 'Passiv') {
-      this.locationService.getAllPassiveLocation()
+      this.departmentService.getAllPassiveDepartment()
         .subscribe((data) => {
           this.loading = false
-          this.locations = data;
+          this.departments = data;
         },
           (error) => {
             this.loading = false
@@ -67,11 +74,11 @@ export class LocationComponent implements OnInit {
           })
     }
     else if (value === 'All') {
-      this.locationService.getAllLocations()
+      this.departmentService.getAllDepartment()
         .subscribe(data => {
           console.log(data)
           this.loading = false
-          this.locations = data;
+          this.departments = data;
         },
           (error) => {
             this.loading = false
@@ -81,33 +88,30 @@ export class LocationComponent implements OnInit {
   }
 
   changeActivate(id: number, situation: boolean) {
-    this.alertService.confirm("Active/Passive", "Bu elementin vəziyyətini dəyişmək istədiyinizdən əminsiniz? Cari vəziyyəti: " + situation,
+    let showSituation: String = !situation ? "Aktiv" : "Passiv";
+    this.alertService.confirm("Aktiv/Passiv", "Bu elementin vəziyyətini dəyişmək istədiyinizdən əminsiniz? \n Cari vəziyyəti: "
+      + showSituation,
       () => {
-        this.locationService.deleteLocation(id).subscribe(
+        this.departmentService.deleteDepartment(id).subscribe(
           (data) => {
             console.log(data)
+            this.refreshDepartment();
             if (data === this.notfound) {
-              console.log('notF');
               this.alertService.error('Element Tapılmadı');
             } else if (data === this.ok) {
-              console.log('ok');
               this.alertService.success('Uğurlu əməliyyat!');
-              this.refreshLocation();
-              this.router.navigate(['/locations']);
+              this.router.navigate(['/department']);
             } else {
-              console.log(data)
               this.alertService.warning("Bilinməyən problem baş verdi detallarına console hissədən baxın");
             }
           },
           (error) => {
             console.log(error)
-            console.log(error.status)
             this.alertService.error("Error code: " + error.status);
           }
         )
       },
       () => {
-        console.log("Cancel")
         this.alertService.warning("Cancel");
       }
     );

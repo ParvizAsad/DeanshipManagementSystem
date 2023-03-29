@@ -58,7 +58,7 @@ public class LocationService {
 
 	public Object getById(Long locationId) {
 		Location location = locationRepository.findById(locationId).orElse(null);
-		if (location != null && location.isDelete == false) {
+		if (location != null) {
 			return location;
 		} else {
 			return HttpStatus.NOT_FOUND;

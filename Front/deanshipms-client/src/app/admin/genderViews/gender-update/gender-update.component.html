@@ -1,4 +1,15 @@
 <app-navbar></app-navbar>
+
+<div
+  [ngClass]="
+    errorText != null
+      ? 'visually d-flex justify-content-center mt-7'
+      : 'visually-hidden'
+  "
+>
+  <span class="errorText">{{ errorText }}</span>
+</div>
+
 <div class="container">
   <form novalidate (ngSubmit)="updateGender(f)" #f="ngForm">
     <fieldset ngModelGroup="name">
@@ -12,7 +23,7 @@
           required
           #name="ngModel"
         />
-        
+
         <div class="form-control-feedback"></div>
       </div>
     </fieldset>
@@ -20,4 +31,3 @@
     <button type="submit" class="btn btn-primary">Submit</button>
   </form>
 </div>
-

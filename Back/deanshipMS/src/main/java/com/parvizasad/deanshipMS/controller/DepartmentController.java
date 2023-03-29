@@ -2,7 +2,6 @@ package com.parvizasad.deanshipMS.controller;
 
 import java.util.List;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,23 +26,32 @@ public class DepartmentController {
 	}
 
 	@GetMapping
-	public List<Department> getAllDeparments() {
-		return departmentService.getAllDeparments();
+	public List<Department> getAllDepartment() {
+		return departmentService.getAllDepartment();
+	}
+	
+	@GetMapping("/passivDepartment")
+	public List<Department> getAllPassivDepartment() {
+		return departmentService.getAllPassivDepartment();
+	}
+	
+	@GetMapping("/activeDepartment")
+	public List<Department> getAllActiveDepartment() {
+		return departmentService.getAllActiveDepartment();
 	}
 
 	@PostMapping
-	public ResponseEntity<Object> createDepartment(@RequestBody Department newDepartment) {
+	public Object createDepartment(@RequestBody Department newDepartment) {
 		return departmentService.createDepartment(newDepartment);
 	}
-
+	
 	@GetMapping("/{departmentId}")
-	public ResponseEntity<Object> getById(@PathVariable Long departmentId) {
+	public Object getById(@PathVariable Long departmentId) {
 		return departmentService.getById(departmentId);
 	}
 
 	@PutMapping("/{departmentId}")
-	public ResponseEntity<Object> updateDepartment(@PathVariable Long departmentId,
-			@RequestBody Department newDepartment) {
+	public Object updateDepartment(@PathVariable Long departmentId, @RequestBody Department newDepartment) {
 		return departmentService.updateDepartment(departmentId, newDepartment);
 	}
 

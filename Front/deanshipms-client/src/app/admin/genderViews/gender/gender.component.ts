@@ -17,7 +17,8 @@ export class GenderComponent implements OnInit {
   badreq: any = 'BAD_REQUEST';
   notfound: any = 'NOT_FOUND';
   ok: any = 'OK';
-
+  loading: boolean = true;
+  errorText: string = "";
   constructor(private genderServices: GenderServiceService,
     private alertService: AlertifyService,
     private route: ActivatedRoute,
@@ -26,31 +27,55 @@ export class GenderComponent implements OnInit {
   ngOnInit() {
     this.refreshGender()
   }
+  addError(error: any) {
+    this.errorText = error.message;
+  }
   refreshGender() {
     this.genderServices.getAllGenders()
       .subscribe(data => {
         console.log(data)
+        this.loading = false
         this.genders = data;
-      })
+      },
+        (error) => {
+          this.loading = false
+          console.log(error)
+          this.addError(error)
+        })
   }
   onItemChange(value: any) {
     if (value === 'Active') {
       this.genderServices.getAllActiveGender()
         .subscribe((data) => {
           this.genders = data;
-        })
+        },
+          (error) => {
+            this.loading = false
+            this.addError(error)
+          }
+        )
     }
-    else if(value === 'Passiv') {
-      this.genderServices.getAllPassivGender()
-        .subscribe((data) => {
+    else if (value === 'Passiv') {
+      this.genderServices.getAllPassivGender().subscribe(
+        (data) => {
+          this.loading = false
           this.genders = data;
+        },
+        (error) => {
+          this.loading = false
+          this.addError(error)
         })
     }
-    else if( value === 'All') {
-      this.genderServices.getAllGenders()
-        .subscribe(data => {
+    else if (value === 'All') {
+      this.genderServices.getAllGenders().subscribe(
+        data => {
           console.log(data)
+          this.loading = false
           this.genders = data;
+        },
+        (error) => {
+          this.loading = false
+          this.addError(error)
         })
     }
   }
