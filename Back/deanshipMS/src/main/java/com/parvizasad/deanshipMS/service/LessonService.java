@@ -3,10 +3,7 @@ package com.parvizasad.deanshipMS.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.parvizasad.deanshipMS.entities.Lesson;
@@ -21,65 +18,85 @@ public class LessonService {
 	}
 
 	public List<Lesson> getAllLessons() {
-		List<Lesson> existLesson = new ArrayList<>();
+		List<Lesson> lessonList = lessonRepository.findAll();
+		return lessonList;
+	}
+
+	public List<Lesson> getAllActiveLessons() {
+		List<Lesson> activeLessonList = new ArrayList<Lesson>();
 		for (Lesson lesson : lessonRepository.findAll()) {
-			if (lesson.isDelete == false) {
-				existLesson.add(lesson);
+			if (!lesson.isDelete) {
+				activeLessonList.add(lesson);
 			}
 		}
-		return existLesson;
+		return activeLessonList;
 	}
 
-	@Transactional
-	public ResponseEntity<Object> createLesson(Lesson newLesson) {
-		if (lessonRepository.existsCurrentLessonByName(newLesson.getName())) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Bu dərs artıq yaradılıb!");
-		} else {
-			lessonRepository.save(newLesson);
-			return ResponseEntity.ok("");
+	public List<Lesson> getAllPassivLessons() {
+		List<Lesson> passivLessonList = new ArrayList<Lesson>();
+		for (Lesson lesson : lessonRepository.findAll()) {
+			if (lesson.isDelete) {
+				passivLessonList.add(lesson);
+			}
 		}
+		return passivLessonList;
 	}
 
-	public ResponseEntity<Object> getById(Long lessonId) {
-		Lesson lesson = lessonRepository.findById(lessonId).orElse(null);
-		if (lesson != null && lesson.isDelete == false) {
-			return new ResponseEntity<Object>(lesson, HttpStatus.OK);
-		} else {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Dərs tapılmadı!");
-		}
-	}
-
-	@Transactional
-	public ResponseEntity<Object> updateLesson(Long lessonId, Lesson newLesson) {
-		Lesson lesson = lessonRepository.findById(lessonId).orElse(null);
-		Lesson existLesson = lessonRepository.findByName(newLesson.name).orElse(null);
-		if (lesson != null && lesson.isDelete == false) {
-			if (existLesson == null) {
-				lesson.name = newLesson.name;
-				lessonRepository.save(lesson);
-				return ResponseEntity.ok("Uğurlu əməliyyat!");
+	public Object createLesson(Lesson newLesson) {
+		Lesson existingLesson = lessonRepository.findByName(newLesson.getName()).orElse(null);
+		if (newLesson.name.length() != 0) {
+			if (existingLesson == null) {
+				lessonRepository.save(newLesson);
+				return HttpStatus.OK;
 			} else {
-				if (existLesson.id != lessonId) {
-					return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Bu adda ixtisas mövcuddur!");
-				} else {
-					lesson.name = newLesson.name;
-					lessonRepository.save(lesson);
-					return ResponseEntity.ok("Uğurlu əməliyyat!");
-				}
+				return HttpStatus.BAD_REQUEST;
 			}
-
-		} else {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Dərs tapılmadı!");
-		}
+		} else
+			return HttpStatus.NOT_FOUND;
 	}
 
-	public ResponseEntity<Object> deleteById(Long lessonId) {
+	public Object getById(Long lessonId) {
 		Lesson lesson = lessonRepository.findById(lessonId).orElse(null);
 		if (lesson != null) {
-			lesson.isDelete = true;
-			return ResponseEntity.ok("Uğurlu əməliyyat!");
+			return lesson;
 		} else {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Bu adda Dərs mövcud deyildir!");
+			return HttpStatus.NOT_FOUND;
+		}
+	}
+
+	public Object updateLesson(Long lessonId, Lesson newLesson) {
+		Lesson lesson = lessonRepository.findById(lessonId).orElse(null);
+		Lesson existLesson = lessonRepository.findByName(newLesson.name).orElse(null);
+
+		if (lesson == null) {
+			return HttpStatus.NOT_FOUND;
+		}
+
+		if (newLesson.name.length() == 0 || (existLesson != null && (existLesson.id != lessonId))) {
+			return HttpStatus.BAD_REQUEST;
+		}
+
+		lesson.name = newLesson.name;
+		lesson.creditCount = newLesson.creditCount;
+		lesson.duration = newLesson.duration;
+		lessonRepository.save(lesson);
+		return HttpStatus.OK;
+	}
+
+	public Object deleteById(Long lessonId) {
+		Lesson lesson = lessonRepository.findById(lessonId).orElse(null);
+		if (lesson != null) {
+			if (!lesson.isDelete()) {
+				lesson.setDelete(true);
+				lessonRepository.save(lesson);
+				return HttpStatus.OK;
+			} else {
+				lesson.setDelete(false);
+				lessonRepository.save(lesson);
+				return HttpStatus.OK;
+			}
+		} else {
+			return HttpStatus.NOT_FOUND;// tapilmadi
 		}
 	}
 }

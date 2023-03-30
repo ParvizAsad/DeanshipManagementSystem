@@ -2,6 +2,7 @@ import {Component, OnInit,Input} from '@angular/core';
 import { faVenusMars } from '@fortawesome/free-solid-svg-icons';
 import {faLocationDot } from '@fortawesome/free-solid-svg-icons';
 import {faBuildingColumns } from '@fortawesome/free-solid-svg-icons';
+import { faBook } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-settings',
@@ -11,6 +12,7 @@ import {faBuildingColumns } from '@fortawesome/free-solid-svg-icons';
 export class SettingsComponent implements OnInit{
   faLocation = faLocationDot;
   faVenusMars=faVenusMars;
+  faBook = faBook;
   faBuildingColumns=faBuildingColumns;
   constructor() { }
 

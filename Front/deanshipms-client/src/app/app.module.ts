@@ -35,6 +35,15 @@ import { GroupUpdateComponent } from './employeeViews/groupViews/group-update/gr
 import { LessonCreateComponent } from './employeeViews/lessonViews/lesson-create/lesson-create.component';
 import { LessonUpdateComponent } from './employeeViews/lessonViews/lesson-update/lesson-update.component';
 import { GroupComponent } from './employeeViews/groupViews/group/group.component';
+import { TeacherModuleComponent } from './teacherModuls/teacher-module/teacher-module.component';
+import { ExamDetailCreateComponent } from './teacherModuls/examDetailsViews/exam-detail-create/exam-detail-create.component';
+import { ExamDetailComponent } from './teacherModuls/examDetailsViews/exam-detail/exam-detail.component';
+import { ExamDetailUpdateComponent } from './teacherModuls/examDetailsViews/exam-detail-update/exam-detail-update.component';
+import { LessonDetailComponent } from './teacherModuls/lessonDetailViews/lesson-detail/lesson-detail.component';
+import { LessonDetailUpdateComponent } from './teacherModuls/lessonDetailViews/lesson-detail-update/lesson-detail-update.component';
+import { EmployeeModuleComponent } from './employeeViews/employee-module/employee-module.component';
+import { LessonComponent } from './employeeViews/lessonViews/lesson/lesson.component';
+import { Lesson } from './core/models/Lesson.models';
 const routes: Routes = [
 {path:"student", component:StudentComponent},
 {path:"login", component:LoginComponent},
@@ -49,6 +58,10 @@ const routes: Routes = [
 {path:"groupCreate", component:GroupCreateComponent},
 {path:"groupEdit/:id", component:GroupUpdateComponent},
 
+{path:"lessons", component:LessonComponent},
+{path:"lessonCreate", component:LessonCreateComponent},
+{path:"lessonEdit/:id", component:LessonUpdateComponent},
+
 {path:"genders", component:GenderComponent},
 {path:"genderEdit/:id", component:GenderUpdateComponent},
 {path:"genderCreate", component:GenderCreateComponent},
@@ -58,7 +71,9 @@ const routes: Routes = [
 {path:"settings", component:SettingsComponent},
 {path:"employee", component:EmployeeComponent},
 {path:"", component:HomeComponent},
-{path:"teacher", component:TeacherComponent}
+
+{path:"teacherModule", component:TeacherModuleComponent},
+{path:"employeeModule", component:EmployeeModuleComponent}
 ];
 
 @NgModule({
@@ -75,20 +90,36 @@ const routes: Routes = [
     RegisterComponent,
     PersonComponent,
     PersonRegistrationComponent,
+    
     GenderComponent,
     GenderCreateComponent,
+
     GenderUpdateComponent,
     LocationComponent,
     LocationCreateComponent,
     LocationUpdateComponent,
-   DepartmenCreateComponent,
+
    DepartmentComponent,
+   DepartmenCreateComponent,
    DepartmentUpdateComponent,
+
    GroupComponent,
    GroupCreateComponent,
    GroupUpdateComponent,
+
+   LessonComponent,
    LessonCreateComponent,
    LessonUpdateComponent,
+
+   TeacherModuleComponent,
+
+   ExamDetailCreateComponent,
+   ExamDetailComponent,
+   ExamDetailUpdateComponent,
+
+   LessonDetailComponent,
+   LessonDetailUpdateComponent,
+   EmployeeModuleComponent,
   ],
   imports: [
     BrowserModule,

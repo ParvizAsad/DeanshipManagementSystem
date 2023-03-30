@@ -114,20 +114,20 @@ Id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
 IsDelete Boolean DEFAULT false,
 roomId int REFERENCES room(id),
 lessonTypeId int REFERENCES lessonType(id),
-lessonTime dateTime not NULL,
+lessonTime date not NULL,
 lessonId int REFERENCES lesson(id),
 groupsId int REFERENCES groups(id),
 teacherId int REFERENCES teacher(id)
 )
 
-
---time
---
---	examdetail-
---examid
---studentid
---score
-
+create table public.examDetail (
+Id INT PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+IsDelete Boolean DEFAULT false,
+lessonId int REFERENCES lesson(id),
+schudleId int REFERENCES schudle(id),
+studentid int REFERENCES student(id),
+score int not null
+)
 
 
 --table silmək
@@ -136,3 +136,9 @@ DROP TABLE roomType
 
 -- table adının dəyişilməsi
  ALTER TABLE roomType RENAME TO lessonType
+ 
+ 
+ insert into "groups" 
+values ('p117'),
+		('p314')
+ 

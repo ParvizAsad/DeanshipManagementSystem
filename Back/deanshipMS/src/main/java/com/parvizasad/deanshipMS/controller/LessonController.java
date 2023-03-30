@@ -2,7 +2,6 @@ package com.parvizasad.deanshipMS.controller;
 
 import java.util.List;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.parvizasad.deanshipMS.entities.Lesson;
 import com.parvizasad.deanshipMS.service.LessonService;
 
-@CrossOrigin(origins = { "*" }, allowCredentials = "false")
+@CrossOrigin(origins = { "*" })
 @RestController
 @RequestMapping("/lessons")
 public class LessonController {
@@ -31,18 +30,29 @@ public class LessonController {
 		return lessonService.getAllLessons();
 	}
 
+	@GetMapping("/passivLesson")
+	public List<Lesson> getAllPassivLessons() {
+		return lessonService.getAllPassivLessons();
+	}
+	
+	@GetMapping("/activeLesson")
+	public List<Lesson> getAllActiveLessons() {
+		return lessonService.getAllActiveLessons();
+	}
+	
+	
 	@PostMapping
-	public ResponseEntity<Object> createLesson(@RequestBody Lesson newLesson) {
+	public Object createLesson(@RequestBody Lesson newLesson) {
 		return lessonService.createLesson(newLesson);
 	}
-
+	
 	@GetMapping("/{lessonId}")
-	public ResponseEntity<Object> getById(@PathVariable Long lessonId) {
+	public Object getById(@PathVariable Long lessonId) {
 		return lessonService.getById(lessonId);
 	}
 
 	@PutMapping("/{lessonId}")
-	public ResponseEntity<Object> updateLesson(@PathVariable Long lessonId, @RequestBody Lesson newLesson) {
+	public Object updateLesson(@PathVariable Long lessonId, @RequestBody Lesson newLesson) {
 		return lessonService.updateLesson(lessonId, newLesson);
 	}
 

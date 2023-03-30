@@ -61,7 +61,7 @@
 
       <div
         [ngClass]="
-          errorText != null
+          errorText != null 
             ? 'visually d-flex justify-content-center mt-7'
             : 'visually-hidden'
         "
@@ -70,7 +70,7 @@
       </div>
       <div
         [ngClass]="
-          groups.length == 0
+          groups.length == 0 && !loading
             ? 'visually d-flex justify-content-center mt-7'
             : 'visually-hidden'
         "

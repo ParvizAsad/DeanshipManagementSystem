@@ -68,27 +68,17 @@ public class GroupService {
 	public Object updateGroup(Long groupId, Group newGroup) {
 		Group group = groupRepository.findById(groupId).orElse(null);
 		Group existGroup = groupRepository.findByName(newGroup.name).orElse(null);
-		if (group != null) {
-			if (existGroup == null) {
-				if (newGroup.name.length() != 0) {
-					group.name = newGroup.name;
-					groupRepository.save(group);
-					return HttpStatus.OK;
-				} else {
-					return HttpStatus.BAD_REQUEST;
-				}
-			} else {
-				if (existGroup.id != groupId) {
-					return HttpStatus.BAD_REQUEST;// mövcuddur
-				} else {
-					group.name = newGroup.name;
-					groupRepository.save(group);
-					return HttpStatus.OK;
-				}
-			}
-		} else {
-			return HttpStatus.NOT_FOUND;// tapılmadı
+		if (group == null) {
+			return HttpStatus.NOT_FOUND;
 		}
+
+		if (newGroup.name.length() == 0 || (existGroup != null && (existGroup.id != groupId))) {
+			return HttpStatus.BAD_REQUEST;
+		}
+
+		group.name = newGroup.name;
+		groupRepository.save(group);
+		return HttpStatus.OK;
 	}
 
 	public Object deleteById(Long groupId) {
