@@ -1,40 +1,40 @@
 import { Component, OnInit } from '@angular/core';
 import { AlertifyService } from 'src/app/core/services/alertifyService/alertify.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { Gender } from 'src/app/core/models/Gender.models';
-import { GenderServiceService } from 'src/app/core/services/genderServices/gender-service.service'
+import { Major } from 'src/app/core/models/Major.models';
+import { MajorServiceService } from 'src/app/core/services/majorService/major-service.service';
 
 @Component({
-  selector: 'app-gender',
-  templateUrl: './gender.component.html',
-  styleUrls: ['./gender.component.scss']
+  selector: 'app-major',
+  templateUrl: './major.component.html',
+  styleUrls: ['./major.component.scss']
 })
-export class GenderComponent implements OnInit {
+export class MajorComponent implements OnInit {
   title = 'httpGet Example';
-  genders: Gender[] = [];
-  gender!: Gender;
+  majors: Major[] = [];
+  major!: Major;
   badreq: any = 'BAD_REQUEST';
   notfound: any = 'NOT_FOUND';
   ok: any = 'OK';
   loading: boolean = true;
   errorText: string = "";
-  constructor(private genderServices: GenderServiceService,
+  constructor(private majorServices: MajorServiceService,
     private alertService: AlertifyService,
     private route: ActivatedRoute,
     private router: Router) { }
 
   ngOnInit() {
-    this.refreshGender()
+    this.refreshMajor()
   }
   addError(error: any) {
     this.errorText = error.message;
   }
-  refreshGender() {
-    this.genderServices.getAllGenders()
+  refreshMajor() {
+    this.majorServices.getAllMajors()
       .subscribe(data => {
         console.log(data)
         this.loading = false
-        this.genders = data;
+        this.majors = data;
       },
         (error) => {
           this.loading = false
@@ -44,9 +44,9 @@ export class GenderComponent implements OnInit {
   }
   onItemChange(value: any) {
     if (value === 'Active') {
-      this.genderServices.getAllActiveGender()
+      this.majorServices.getAllActiveMajor()
         .subscribe((data) => {
-          this.genders = data;
+          this.majors = data;
         },
           (error) => {
             this.loading = false
@@ -55,10 +55,10 @@ export class GenderComponent implements OnInit {
         )
     }
     else if (value === 'Passiv') {
-      this.genderServices.getAllPassivGender().subscribe(
+      this.majorServices.getAllPassivMajor().subscribe(
         (data) => {
           this.loading = false
-          this.genders = data;
+          this.majors = data;
         },
         (error) => {
           this.loading = false
@@ -66,11 +66,11 @@ export class GenderComponent implements OnInit {
         })
     }
     else if (value === 'All') {
-      this.genderServices.getAllGenders().subscribe(
+      this.majorServices.getAllMajors().subscribe(
         data => {
           console.log(data)
           this.loading = false
-          this.genders = data;
+          this.majors = data;
         },
         (error) => {
           this.loading = false
@@ -82,7 +82,7 @@ export class GenderComponent implements OnInit {
   changeActivate(id: number, situation: boolean) {
     this.alertService.confirm("Active/Passive", "Bu elementin vəziyyətini dəyişmək istədiyinizdən əminsiniz? Cari vəziyyəti: " + situation,
       () => {
-        this.genderServices.deleteGender(id).subscribe(
+        this.majorServices.deleteMajor(id).subscribe(
           (data) => {
             console.log(data)
             if (data === this.notfound) {
@@ -92,7 +92,7 @@ export class GenderComponent implements OnInit {
               console.log('ok');
               this.alertService.success('Uğurlu əməliyyat!');
               this.onItemChange('All');
-              this.router.navigate(['/genders']);
+              this.router.navigate(['/majors']);
             } else {
               console.log(data)
               this.alertService.warning("Bilinməyən problem baş verdi detallarına console hissədən baxın");

@@ -1,0 +1,40 @@
+<app-navbar></app-navbar>
+
+<div
+  [ngClass]="
+    errorText != null
+      ? 'visually d-flex justify-content-center mt-7'
+      : 'visually-hidden'
+  "
+>
+  <span class="errorText">{{ errorText }}</span>
+</div>
+
+<div class="container">
+  <form novalidate (ngSubmit)="updateMajor(f)" #f="ngForm">
+    <fieldset ngModelGroup="name">
+      <div class="form-group">
+        <label>Name</label>
+        <input
+          type="text"
+          class="form-control"
+          name="name"
+          [(ngModel)]="major.name"
+          required
+          #name="ngModel"
+        />
+         <label>Major Code</label>
+        <input
+          type="text"
+          class="form-control"
+          name="majorCode"
+          [(ngModel)]="major.majorCode"
+          required
+          #name="ngModel"
+        />
+      </div>
+    </fieldset>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>

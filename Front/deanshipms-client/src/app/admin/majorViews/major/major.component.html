@@ -1,6 +1,6 @@
 <app-navbar></app-navbar>
 <div class="container mt-5">
-  <button type="button" class="btn btn-success me-3" routerLink="/genderCreate">
+  <button type="button" class="btn btn-success me-3" routerLink="/majorCreate">
     Create
   </button>
   <div class="btn-group btn-group-toggle demoFroms" data-toggle="buttons">
@@ -42,7 +42,8 @@
   <table class="table">
     <thead>
       <tr>
-        <th scope="col">Gender Name</th>
+        <th scope="col">Major code</th>
+        <th scope="col">Major Name</th>
         <th scope="col">Action</th>
       </tr>
     </thead>
@@ -66,20 +67,21 @@
       </div>
       <div
         [ngClass]="
-          genders.length == 0 && !loading
+          majors.length == 0 && !loading
             ? 'visually d-flex justify-content-center mt-7'
             : 'visually-hidden'
         "
       >
         <span class="errorText">Mövcud element yoxdur!</span>
       </div>
-      <tr *ngFor="let item of genders">
+      <tr *ngFor="let item of majors">
+        <td>{{ item.majorCode }}</td>
         <td>{{ item.name }}</td>
         <td>
           <button
             type="button"
             class="btn btn-primary me-3"
-            [routerLink]="['/genderEdit', item.id]"
+            [routerLink]="['/majorEdit', item.id]"
           >
             Edit
           </button>

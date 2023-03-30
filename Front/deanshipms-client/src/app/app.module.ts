@@ -44,6 +44,9 @@ import { LessonDetailUpdateComponent } from './teacherModuls/lessonDetailViews/l
 import { EmployeeModuleComponent } from './employeeViews/employee-module/employee-module.component';
 import { LessonComponent } from './employeeViews/lessonViews/lesson/lesson.component';
 import { Lesson } from './core/models/Lesson.models';
+import { MajorComponent } from './admin/majorViews/major/major.component';
+import { MajorUpdateComponent } from './admin/majorViews/major-update/major-update.component';
+import { MajorCreateComponent } from './admin/majorViews/major-create/major-create.component';
 const routes: Routes = [
 {path:"student", component:StudentComponent},
 {path:"login", component:LoginComponent},
@@ -54,6 +57,7 @@ const routes: Routes = [
 {path:"departmentnCreate", component:DepartmenCreateComponent},
 
 {path:"student", component:StudentComponent},
+
 {path:"groups", component:GroupComponent},
 {path:"groupCreate", component:GroupCreateComponent},
 {path:"groupEdit/:id", component:GroupUpdateComponent},
@@ -61,6 +65,10 @@ const routes: Routes = [
 {path:"lessons", component:LessonComponent},
 {path:"lessonCreate", component:LessonCreateComponent},
 {path:"lessonEdit/:id", component:LessonUpdateComponent},
+
+{path:"majors", component:MajorComponent},
+{path:"majorCreate", component:MajorCreateComponent},
+{path:"majorEdit/:id", component:MajorUpdateComponent},
 
 {path:"genders", component:GenderComponent},
 {path:"genderEdit/:id", component:GenderUpdateComponent},
@@ -93,8 +101,8 @@ const routes: Routes = [
     
     GenderComponent,
     GenderCreateComponent,
-
     GenderUpdateComponent,
+    
     LocationComponent,
     LocationCreateComponent,
     LocationUpdateComponent,
@@ -120,6 +128,10 @@ const routes: Routes = [
    LessonDetailComponent,
    LessonDetailUpdateComponent,
    EmployeeModuleComponent,
+
+   MajorComponent,
+   MajorUpdateComponent,
+   MajorCreateComponent,
   ],
   imports: [
     BrowserModule,

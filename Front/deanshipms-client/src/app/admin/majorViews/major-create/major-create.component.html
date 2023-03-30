@@ -1,0 +1,38 @@
+<app-navbar></app-navbar>
+
+<div
+  [ngClass]="
+    errorText != null
+      ? 'visually d-flex justify-content-center mt-7'
+      : 'visually-hidden'
+  "
+>
+  <span class="errorText">{{ errorText }}</span>
+</div>
+
+<div class="container mt-5 d-flex justify-content-center">
+  <div class="row">
+    <div class="col-12">
+      <!-- Name input -->
+      <div class="form-outline">
+        <label class="form-label" for="form8Example3">Major name</label>
+        <input
+          type="text"
+          id="form8Example3"
+          class="form-control"
+          [(ngModel)]="major.name"
+        />
+        <label class="form-label" for="form8Example3">Major code</label>
+        <input
+          type="text"
+          id="form8Example3"
+          class="form-control"
+          [(ngModel)]="major.majorCode"
+        />
+      </div>
+      <button (click)="createMajor()" class="btn btn-success me-3 mt-2">
+        Create
+      </button>
+    </div>
+  </div>
+</div>

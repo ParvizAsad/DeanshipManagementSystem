@@ -1,10 +1,6 @@
 <app-navbar></app-navbar>
 <div class="container mt-5">
-  <button
-    type="button"
-    class="btn btn-success me-3"
-    routerLink="/groupCreate"
-  >
+  <button type="button" class="btn btn-success me-3" routerLink="/groupCreate">
     Create
   </button>
   <div class="btn-group btn-group-toggle demoFroms" data-toggle="buttons">
@@ -61,7 +57,7 @@
 
       <div
         [ngClass]="
-          errorText != null 
+          errorText != null
             ? 'visually d-flex justify-content-center mt-7'
             : 'visually-hidden'
         "

@@ -2,7 +2,6 @@ package com.parvizasad.deanshipMS.controller;
 
 import java.util.List;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,19 +29,29 @@ public class MajorController {
 	public List<Major> getAllMajors() {
 		return majorService.getAllMajors();
 	}
+	
+	@GetMapping("/passivMajor")
+	public List<Major> getAllPassivMajors() {
+		return majorService.getAllPassivMajors();
+	}
+	
+	@GetMapping("/activeMajor")
+	public List<Major> getAllActiveMajors() {
+		return majorService.getAllActiveMajors();
+	}
 
 	@PostMapping
-	public ResponseEntity<Object> createMajor(@RequestBody Major newMajor) {
+	public Object createMajor(@RequestBody Major newMajor) {
 		return majorService.createMajor(newMajor);
 	}
 
 	@GetMapping("/{majorId}")
-	public ResponseEntity<Object> getById(@PathVariable Long majorId) {
+	public Object getById(@PathVariable Long majorId) {
 		return majorService.getById(majorId);
 	}
 
 	@PutMapping("/{majorId}")
-	public ResponseEntity<Object> updateMajor(@PathVariable Long majorId, @RequestBody Major newMajor) {
+	public Object updateMajor(@PathVariable Long majorId, @RequestBody Major newMajor) {
 		return majorService.updateMajor(majorId, newMajor);
 	}
 

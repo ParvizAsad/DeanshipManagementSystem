@@ -57,7 +57,7 @@ public class LessonService {
 
 	public Object getById(Long lessonId) {
 		Lesson lesson = lessonRepository.findById(lessonId).orElse(null);
-		if (lesson != null) {
+		if (lesson == null) {
 			return lesson;
 		} else {
 			return HttpStatus.NOT_FOUND;
@@ -65,6 +65,7 @@ public class LessonService {
 	}
 
 	public Object updateLesson(Long lessonId, Lesson newLesson) {
+		
 		Lesson lesson = lessonRepository.findById(lessonId).orElse(null);
 		Lesson existLesson = lessonRepository.findByName(newLesson.name).orElse(null);
 
