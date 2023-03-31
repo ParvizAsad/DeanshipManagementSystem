@@ -3,10 +3,7 @@ package com.parvizasad.deanshipMS.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.parvizasad.deanshipMS.entities.Room;
@@ -21,64 +18,79 @@ public class RoomService {
 	}
 
 	public List<Room> getAllRoom() {
-		List<Room> existRoom = new ArrayList<>();
+		List<Room> room = roomRepository.findAll();
+		return room;
+	}
+
+	public List<Room> getAllActiveRooms() {
+		List<Room> activeRoomList = new ArrayList<Room>();
 		for (Room room : roomRepository.findAll()) {
-			if (room.isDelete == false) {
-				existRoom.add(room);
+			if (!room.isDelete) {
+				activeRoomList.add(room);
 			}
 		}
-		return existRoom;
+		return activeRoomList;
 	}
 
-	@Transactional
-	public ResponseEntity<Object> createRoom(Room newRoom) {
-		if (roomRepository.existsCurrentRoomByRoomNumber(newRoom.getRoomNumber())) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Bu otaq artıq yaradılıb!");
-		} else {
-			roomRepository.save(newRoom);
-			return ResponseEntity.ok("Uğurlu əməliyyat!");
-		}
-	}
-
-	public ResponseEntity<Object> getById(Long roomId) {
-		Room room = roomRepository.findById(roomId).orElse(null);
-		if (room != null && room.isDelete == false) {
-			return new ResponseEntity<Object>(room, HttpStatus.OK);
-		} else {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("otaq tapılmadı!");
-		}
-	}
-
-	@Transactional
-	public ResponseEntity<Object> updateRoom(Long roonId, Room newRoom) {
-		Room room = roomRepository.findById(roonId).orElse(null);
-		Room existRoom = roomRepository.findByRoomNumber(newRoom.roomNumber).orElse(null);
-		if (room != null && room.isDelete == false) {
-			if (existRoom == null) {
-				room.roomNumber = newRoom.roomNumber;
-				roomRepository.save(room);
-				return ResponseEntity.ok("Uğurlu əməliyyat!");
-			} else {
-				if (existRoom.id != roonId) {
-					return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Bu otaq mövcuddur!");
-				} else {
-					room.roomNumber = newRoom.roomNumber;
-					roomRepository.save(room);
-					return ResponseEntity.ok("Uğurlu əməliyyat!");
-				}
+	public List<Room> getAllPassivRooms() {
+		List<Room> passivRoomList = new ArrayList<Room>();
+		for (Room room : roomRepository.findAll()) {
+			if (room.isDelete) {
+				passivRoomList.add(room);
 			}
-		} else {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("otaq tapılmadı!");
 		}
+		return passivRoomList;
 	}
 
-	public ResponseEntity<Object> deleteById(Long roomId) {
+	public Object createRoom(Room newRoom) {
+		Room existingRoom = roomRepository.findByRoomNumber(newRoom.getRoomNumber()).orElse(null);
+
+		if (newRoom.roomNumber.length() == 0) {
+			return HttpStatus.NOT_FOUND;
+		}
+
+		if (existingRoom != null) {
+			return HttpStatus.BAD_REQUEST;
+		}
+		roomRepository.save(newRoom);
+		return HttpStatus.OK;
+	}
+
+	public Object getById(Long roomId) {
 		Room room = roomRepository.findById(roomId).orElse(null);
 		if (room != null) {
-			room.isDelete = true;
-			return ResponseEntity.ok("Uğurlu əməliyyat!");
-		} else {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Bu adda otaq mövcud deyildir!");
+			return HttpStatus.NOT_FOUND;
 		}
+		return room;
 	}
+
+	public Object updateRoom(Long roomId, Room newRoom) {
+		Room room = roomRepository.findById(roomId).orElse(null);
+		Room existRoom = roomRepository.findByRoomNumber(newRoom.roomNumber).orElse(null);
+
+		if (room == null) {
+			return HttpStatus.NOT_FOUND;
+		}
+
+		if (newRoom.roomNumber.length() == 0 || (existRoom != null && (existRoom.id != roomId))) {
+			return HttpStatus.BAD_REQUEST;
+		}
+
+		room.roomNumber = newRoom.roomNumber;
+		roomRepository.save(room);
+		return HttpStatus.OK;
+	}
+
+	public Object deleteById(Long roomId) {
+		Room room = roomRepository.findById(roomId).orElse(null);
+
+		if (room == null) {
+			return HttpStatus.NOT_FOUND;// tapilmadi
+		}
+
+		room.setDelete(!room.isDelete());
+		roomRepository.save(room);
+		return HttpStatus.OK;
+	}
+
 }

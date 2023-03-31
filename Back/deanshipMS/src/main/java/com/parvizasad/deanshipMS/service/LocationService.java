@@ -45,69 +45,53 @@ public class LocationService {
 	
 	public Object createLocation(Location newLocation) {
 		Location existingLocation = locationRepository.findByName(newLocation.getName()).orElse(null);
-		if (newLocation.name.length() != 0) {
-			if (existingLocation == null) {
-				locationRepository.save(newLocation);
-				return HttpStatus.OK;
-			} else {
-				return HttpStatus.BAD_REQUEST;
-			}
-		} else
+		
+		if (newLocation.name.length() == 0 ) {
 			return HttpStatus.NOT_FOUND;
+		}
+		
+		if (existingLocation != null ) {
+			return HttpStatus.BAD_REQUEST;
+		}
+		locationRepository.save(newLocation);
+		return HttpStatus.OK;
 	}
 
 	public Object getById(Long locationId) {
 		Location location = locationRepository.findById(locationId).orElse(null);
 		if (location != null) {
-			return location;
-		} else {
 			return HttpStatus.NOT_FOUND;
-		}
+		} 
+		return location;
 	}
 
 	public Object updateLocation(Long locationId, Location newLocation) {
 		Location location = locationRepository.findById(locationId).orElse(null);
 		Location existLocation = locationRepository.findByName(newLocation.name).orElse(null);
-		if (location != null && location.isDelete == false) {
-			if (existLocation == null) {
-				if (newLocation.name.length() != 0) {
-					location.name = newLocation.name;
-					locationRepository.save(location);
-					return HttpStatus.OK;
-				} else {
-					return HttpStatus.BAD_REQUEST;
-				}
-			} else {
-				if (existLocation.id != locationId) {
-					return HttpStatus.BAD_REQUEST;// mövcuddur
-				} else {
-					location.name = newLocation.name;
-					locationRepository.save(location);
-					return HttpStatus.OK;
-				}
-			}
-		} else {
-			return HttpStatus.NOT_FOUND;// tapılmadı
+		
+		if (location == null) {
+			return HttpStatus.NOT_FOUND;
 		}
+
+		if (newLocation.name.length() == 0 || (existLocation != null && (existLocation.id != locationId))) {
+			return HttpStatus.BAD_REQUEST;
+		}
+
+		location.name = newLocation.name;
+		locationRepository.save(location);
+		return HttpStatus.OK;
 	}
 
 	public Object deleteById(Long locationId) {
 		Location location = locationRepository.findById(locationId).orElse(null);
-		if (location != null) {
-			if (!location.isDelete()) {
-				System.out.println("false");
-				location.setDelete(true);
-				locationRepository.save(location);
-				return HttpStatus.OK;
-			} else {
-				System.out.println("true");
-				location.setDelete(false);
-				locationRepository.save(location);
-				return HttpStatus.OK;
-			}
-		} else {
+		
+		if (location == null) {
 			return HttpStatus.NOT_FOUND;// tapilmadi
 		}
+	
+		location.setDelete(!location.isDelete());
+		locationRepository.save(location);
+		return HttpStatus.OK;
 	}
 
 }

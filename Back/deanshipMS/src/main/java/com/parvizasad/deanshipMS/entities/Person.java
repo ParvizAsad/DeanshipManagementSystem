@@ -16,7 +16,6 @@ import javax.validation.constraints.NotNull;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,7 +25,6 @@ import lombok.Setter;
 @Data
 @Getter
 @Setter
-@AllArgsConstructor
 public class Person {
 
 	@Id
@@ -51,5 +49,10 @@ public class Person {
 	
 	@NotNull
 	public boolean isDelete = false;
+
+	public Person orElse(Object object) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }

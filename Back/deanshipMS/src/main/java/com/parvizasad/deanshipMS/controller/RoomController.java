@@ -2,7 +2,6 @@ package com.parvizasad.deanshipMS.controller;
 
 import java.util.List;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,19 +29,28 @@ public class RoomController {
 	public List<Room> getAllRoom() {
 		return roomService.getAllRoom();
 	}
-
+	@GetMapping("/passivRoom")
+	public List<Room> getAllPassivRooms() {
+		return roomService.getAllPassivRooms();
+	}
+	
+	@GetMapping("/activeRoom")
+	public List<Room> getAllActiveRooms() {
+		return roomService.getAllActiveRooms();
+	}
+	
 	@PostMapping
-	public ResponseEntity<Object> createRoom(@RequestBody Room newRoom) {
+	public Object createRoom(@RequestBody Room newRoom) {
 		return roomService.createRoom(newRoom);
 	}
 
 	@GetMapping("/{roomId}")
-	public ResponseEntity<Object> getById(@PathVariable Long roomId) {
+	public Object getById(@PathVariable Long roomId) {
 		return roomService.getById(roomId);
 	}
 
 	@PutMapping("/{roomId}")
-	public ResponseEntity<Object> updateRoom(@PathVariable Long roomId, @RequestBody Room newRoom) {
+	public Object updateRoom(@PathVariable Long roomId, @RequestBody Room newRoom) {
 		return roomService.updateRoom(roomId, newRoom);
 	}
 

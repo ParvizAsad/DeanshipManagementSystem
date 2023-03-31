@@ -3,10 +3,7 @@ package com.parvizasad.deanshipMS.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import com.parvizasad.deanshipMS.entities.Person;
@@ -21,80 +18,88 @@ public class PersonService {
 		this.personRepository = personRepository;
 	}
 
+
 	public List<Person> getAllPersons() {
-		List<Person> existPerson = new ArrayList<>();
+		List<Person> person = personRepository.findAll();
+		return person;
+	}
+
+	public List<Person> getAllActivePersons() {
+		List<Person> activePersonList =new ArrayList<Person>();
 		for (Person person : personRepository.findAll()) {
-			if (person.isDelete == false) {
-				existPerson.add(person);
+			if (!person.isDelete) {
+				activePersonList.add(person);
 			}
 		}
-		return existPerson;
+		return activePersonList;
 	}
-
-	@Transactional
-	public ResponseEntity<Object> createPerson(Person newPerson) {
-		if (personRepository.existsCurrentPersonByPasportId(newPerson.getPasportId())) {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Bu şəxs artıq yaradılıb!"); // or anything you want
-		} else {
-			personRepository.save(newPerson);
-			return ResponseEntity.ok("Uğurlu əməliyyat!");
-		}
-	}
-
-	public ResponseEntity<Object> getById(Long personId) {
-		Person person = personRepository.findById(personId).orElse(null);
-		if (person != null && person.isDelete == false) {
-			return new ResponseEntity<Object>(person, HttpStatus.OK);
-		} else {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("İxtisas tapılmadı!");
-		}
-	}
-
-	@Transactional
-	public ResponseEntity<Object> updatePerson(Long personId, Person newPerson) {
-
-		Person person = personRepository.findById(personId).orElse(null);
-		Person existPerson = personRepository.findByPasportId(newPerson.pasportId);
-		Person existPersonEmail = personRepository.findByEmail(newPerson.email);
-		if (person != null && person.isDelete == false) {
-			if (existPerson == null && existPersonEmail == null) {
-				person.fullName = newPerson.fullName;
-				person.birthDate = newPerson.birthDate;
-				person.email = newPerson.email;
-				person.setLocation(newPerson.getLocation()); 
-				person.pasportId = newPerson.pasportId;
-				person.phno = newPerson.phno;
-				personRepository.save(person);
-				return ResponseEntity.ok("Uğurlu əməliyyat!");
-			} else {
-				if (existPerson.id == personId && existPersonEmail.id == personId) {
-					person.fullName = newPerson.fullName;
-					person.birthDate = newPerson.birthDate;
-					person.email = newPerson.email;
-					person.setLocation(newPerson.getLocation()); 
-					person.pasportId = newPerson.pasportId;
-					person.phno = newPerson.phno;
-					personRepository.save(person);
-					return ResponseEntity.ok("Uğurlu əməliyyat!");
-				} else {
-					return ResponseEntity.status(HttpStatus.FORBIDDEN)
-							.body("Bu email və ya Fin kod başqa şəxsə aiddir!");
-				}
+	
+	public List<Person> getAllPassivPersons() {
+		List<Person> passivPersonList =new ArrayList<Person>();
+		for (Person person : personRepository.findAll()) {
+			if (person.isDelete) {
+				passivPersonList.add(person);
 			}
-		} else {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Şəxs tapılmadı!");
 		}
-
+		return passivPersonList;
 	}
-
-	public ResponseEntity<Object> deleteById(Long personId) {
+	
+	public Object createPerson(Person newPerson) {
+		Person existingPerson = personRepository.findByPasportId(newPerson.getPasportId()).orElse(null);
+		
+		if (newPerson.pasportId.length() == 0 ) {
+			return HttpStatus.NOT_FOUND;
+		}
+		
+		if (existingPerson != null ) {
+			return HttpStatus.BAD_REQUEST;
+		}
+		personRepository.save(newPerson);
+		return HttpStatus.OK;
+	}
+	
+	public Object getById(Long personId) {
 		Person person = personRepository.findById(personId).orElse(null);
 		if (person != null) {
-			person.isDelete = true;
-			return ResponseEntity.ok("Uğurlu əməliyyat!");
-		} else {
-			return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Bu şəxs artıq yaradılıb!");
-		}
+			return HttpStatus.NOT_FOUND;
+		} 
+		return person;
 	}
+
+
+	public Object updatePerson(Long personId, Person newPerson)  {
+		Person person = personRepository.findById(personId).orElse(null);
+		Person existPerson = personRepository.findByPasportId(newPerson.pasportId).orElse(null);
+		
+		if (person == null) {
+			return HttpStatus.NOT_FOUND;
+		}
+
+		if (newPerson.pasportId.length() == 0 || (existPerson != null && (existPerson.id != personId))) {
+			return HttpStatus.BAD_REQUEST;
+		}
+
+		person.fullName = newPerson.fullName;
+		person.birthDate = newPerson.birthDate;
+		person.email = newPerson.email;
+		person.setLocation(newPerson.getLocation()); 
+		person.pasportId = newPerson.pasportId;
+		person.phno = newPerson.phno;
+		personRepository.save(person);
+		return HttpStatus.OK;
+	}
+	
+	public Object deleteById(Long personId) {
+		Person person = personRepository.findById(personId).orElse(null);
+		
+		if (person == null) {
+			return HttpStatus.NOT_FOUND;// tapilmadi
+		}
+	
+		person.setDelete(!person.isDelete());
+		personRepository.save(person);
+		return HttpStatus.OK;
+	}
+	
 
 }

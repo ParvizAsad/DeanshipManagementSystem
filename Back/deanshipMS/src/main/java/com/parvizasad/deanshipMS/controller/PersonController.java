@@ -1,7 +1,7 @@
 package com.parvizasad.deanshipMS.controller;
 
 import java.util.List;
-import org.springframework.http.ResponseEntity;
+
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.parvizasad.deanshipMS.entities.Person;
 import com.parvizasad.deanshipMS.service.PersonService;
 
-@CrossOrigin(origins = { "*" },  allowCredentials = "false")
+@CrossOrigin(origins = { "*" })
 @RestController
 @RequestMapping("/persons")
 public class PersonController {
@@ -30,19 +30,29 @@ public class PersonController {
 	public List<Person> getAllUsers() {
 		return personService.getAllPersons();
 	}
+	
+	@GetMapping("/passivPerson")
+	public List<Person> getAllPassivPersons() {
+		return personService.getAllPassivPersons();
+	}
+	
+	@GetMapping("/activePerson")
+	public List<Person> getAllActivePersons() {
+		return personService.getAllActivePersons();
+	}
 
 	@PostMapping
-	public ResponseEntity<Object> createPerson(@RequestBody Person newUser) {
+	public Object createPerson(@RequestBody Person newUser) {
 		return personService.createPerson(newUser);
 	}
 
 	@GetMapping("/{personId}")
-	public  ResponseEntity<Object>  getById(@PathVariable Long personId) {
+	public  Object getById(@PathVariable Long personId) {
 		return personService.getById(personId);
 	}
 
 	@PutMapping("/{personId}")
-	public ResponseEntity<Object> updatePerson(@PathVariable Long personId, @RequestBody Person newPerson) {
+	public Object updatePerson(@PathVariable Long personId, @RequestBody Person newPerson) {
 		return personService.updatePerson(personId, newPerson);
 	}
 

@@ -45,9 +45,11 @@ public class MajorService {
 	public Object createMajor(Major newMajor) {
 		Major existingMajorName = majorRepository.findByName(newMajor.getName()).orElse(null);
 		Major existingMajorCode = majorRepository.findByMajorCode(newMajor.getMajorCode()).orElse(null);
+		
 		if (newMajor.name.length() == 0 && newMajor.majorCode.length() == 0) {
 			return HttpStatus.NOT_FOUND;
 		}
+		
 		if (existingMajorName != null && existingMajorCode != null) {
 			return HttpStatus.BAD_REQUEST;
 		}
@@ -58,11 +60,10 @@ public class MajorService {
 
 	public Object getById(Long majorId) {
 		Major major = majorRepository.findById(majorId).orElse(null);
-		if (major != null) {
-			return major;
-		} else {
+		if (major == null) {
 			return HttpStatus.NOT_FOUND;
-		}
+		} 
+			return major;
 	}
 
 	public Object updateMajor(Long majorId, Major newMajor) {
@@ -85,18 +86,19 @@ public class MajorService {
 
 	public Object deleteById(Long majorId) {
 		Major major = majorRepository.findById(majorId).orElse(null);
-		if (major != null) {
-			if (!major.isDelete()) {
-				major.setDelete(true);
-				majorRepository.save(major);
-				return HttpStatus.OK;
-			} else {
-				major.setDelete(false);
-				majorRepository.save(major);
-				return HttpStatus.OK;
-			}
-		} else {
+		
+		if (major == null) {
 			return HttpStatus.NOT_FOUND;// tapilmadi
 		}
+		
+		if (!major.isDelete()) {
+			major.setDelete(true);
+		} else {
+			major.setDelete(false);
+		}
+		
+		majorRepository.save(major);
+		return HttpStatus.OK;
+		
 	}
 }

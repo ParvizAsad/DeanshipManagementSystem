@@ -44,24 +44,27 @@ public class LessonService {
 
 	public Object createLesson(Lesson newLesson) {
 		Lesson existingLesson = lessonRepository.findByName(newLesson.getName()).orElse(null);
-		if (newLesson.name.length() != 0) {
-			if (existingLesson == null) {
-				lessonRepository.save(newLesson);
-				return HttpStatus.OK;
-			} else {
-				return HttpStatus.BAD_REQUEST;
-			}
-		} else
+		
+		if (newLesson.name.length() == 0 ) {
 			return HttpStatus.NOT_FOUND;
+		}
+		
+		if (existingLesson != null ) {
+			return HttpStatus.BAD_REQUEST;
+		}
+		
+		lessonRepository.save(newLesson);
+		return HttpStatus.OK;
+		
 	}
 
 	public Object getById(Long lessonId) {
 		Lesson lesson = lessonRepository.findById(lessonId).orElse(null);
 		if (lesson == null) {
-			return lesson;
-		} else {
 			return HttpStatus.NOT_FOUND;
-		}
+		} 
+			
+			return lesson;
 	}
 
 	public Object updateLesson(Long lessonId, Lesson newLesson) {
@@ -86,18 +89,21 @@ public class LessonService {
 
 	public Object deleteById(Long lessonId) {
 		Lesson lesson = lessonRepository.findById(lessonId).orElse(null);
-		if (lesson != null) {
-			if (!lesson.isDelete()) {
-				lesson.setDelete(true);
-				lessonRepository.save(lesson);
-				return HttpStatus.OK;
-			} else {
-				lesson.setDelete(false);
-				lessonRepository.save(lesson);
-				return HttpStatus.OK;
-			}
-		} else {
+		
+		if (lesson == null) {
 			return HttpStatus.NOT_FOUND;// tapilmadi
 		}
+		
+		if (!lesson.isDelete()) {
+			lesson.setDelete(true);
+			lessonRepository.save(lesson);
+			return HttpStatus.OK;
+		} else {
+			lesson.setDelete(false);
+			lessonRepository.save(lesson);
+			return HttpStatus.OK;
+		}
+		
+	
 	}
 }

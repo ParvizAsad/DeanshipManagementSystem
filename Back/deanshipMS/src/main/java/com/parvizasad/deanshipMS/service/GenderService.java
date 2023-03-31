@@ -32,8 +32,6 @@ public class GenderService {
 		return activeGenderList;
 	}
 	
-
-	
 	public List<Gender> getAllPassivGender() {
 		List<Gender> passivGenderList =new ArrayList<Gender>();
 		for (Gender gender : genderRepository.findAll()) {
@@ -43,73 +41,58 @@ public class GenderService {
 		}
 		return passivGenderList;
 	}
-	
 
 	public Object createGender(Gender newGender) {
 		Gender existingGender = genderRepository.findByName(newGender.getName()).orElse(null);
-		if (newGender.name.length() != 0) {
-			if (existingGender == null) {
-				genderRepository.save(newGender);
-				return HttpStatus.OK;
-			} else {
-				return HttpStatus.BAD_REQUEST;
-			}
-		} else
+		
+		if (newGender.name.length() == 0 ) {
 			return HttpStatus.NOT_FOUND;
+		}
+		
+		if (existingGender != null ) {
+			return HttpStatus.BAD_REQUEST;
+		}
+		genderRepository.save(newGender);
+		return HttpStatus.OK;
 	}
 
 	public Object getById(Long genderId) {
 		Gender gender = genderRepository.findById(genderId).orElse(null);
-		if (gender != null && gender.isDelete == false) {
-			return gender;
-		} else {
+		if (gender != null) {
 			return HttpStatus.NOT_FOUND;
-		}
+		} 
+			return gender;
 	}
 	
 	public Object updateGender(Long  genderId, Gender newGender) {
 		Gender gender = genderRepository.findById(genderId).orElse(null);
 		Gender existGender = genderRepository.findByName(newGender.name).orElse(null);
-		if (gender != null && gender.isDelete == false) {
-			if (existGender == null) {
-				if (newGender.name.length() != 0) {
-					gender.name = newGender.name;
-					genderRepository.save(gender);
-					return HttpStatus.OK;
-				} else {
-					return HttpStatus.BAD_REQUEST;
-				}
-			} else {
-				if (existGender.id != genderId) {
-					return HttpStatus.BAD_REQUEST;// mövcuddur
-				} else {
-					gender.name = newGender.name;
-					genderRepository.save(gender);
-					return HttpStatus.OK;
-				}
-			}
-		} else {
-			return HttpStatus.NOT_FOUND;// tapılmadı
+		
+		if (gender == null) {
+			return HttpStatus.NOT_FOUND;
 		}
+
+		if (newGender.name.length() == 0 || (existGender != null && (existGender.id != genderId))) {
+			return HttpStatus.BAD_REQUEST;
+		}
+
+		gender.name = newGender.name;
+		genderRepository.save(gender);
+		return HttpStatus.OK;
+		
 	}
 
 	public Object deleteById(Long genderId) {
 		Gender gender = genderRepository.findById(genderId).orElse(null);
-		if (gender != null) {
-			if (!gender.isDelete()) {
-				System.out.println("false");
-				gender.setDelete(true);
-				genderRepository.save(gender);
-				return HttpStatus.OK;
-			} else {
-				System.out.println("true");
-				gender.setDelete(false);
-				genderRepository.save(gender);
-				return HttpStatus.OK;
-			}
-		} else {
+		
+		if (gender == null) {
 			return HttpStatus.NOT_FOUND;// tapilmadi
 		}
+	
+		gender.setDelete(!gender.isDelete());
+		genderRepository.save(gender);
+		return HttpStatus.OK;
+		
 	}
 
 }

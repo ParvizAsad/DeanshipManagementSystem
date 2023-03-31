@@ -45,29 +45,30 @@ public class GroupService {
 	
 	public Object createGroup(Group newGroup) {
 		Group existingGroup = groupRepository.findByName(newGroup.getName()).orElse(null);
-		if (newGroup.name.length() != 0) {
-			if (existingGroup == null) {
-				groupRepository.save(newGroup);
-				return HttpStatus.OK;
-			} else {
-				return HttpStatus.BAD_REQUEST;
-			}
-		} else
+		
+		if (newGroup.name.length() == 0 ) {
 			return HttpStatus.NOT_FOUND;
+		}
+		
+		if (existingGroup != null ) {
+			return HttpStatus.BAD_REQUEST;
+		}
+		groupRepository.save(newGroup);
+		return HttpStatus.OK;
 	}
 
 	public Object getById(Long groupId) {
 		Group group = groupRepository.findById(groupId).orElse(null);
 		if (group != null) {
-			return group;
-		} else {
 			return HttpStatus.NOT_FOUND;
-		}
+		} 
+			return group;
 	}
 
 	public Object updateGroup(Long groupId, Group newGroup) {
 		Group group = groupRepository.findById(groupId).orElse(null);
 		Group existGroup = groupRepository.findByName(newGroup.name).orElse(null);
+		
 		if (group == null) {
 			return HttpStatus.NOT_FOUND;
 		}
@@ -79,23 +80,20 @@ public class GroupService {
 		group.name = newGroup.name;
 		groupRepository.save(group);
 		return HttpStatus.OK;
+		
 	}
 
 	public Object deleteById(Long groupId) {
 		Group group = groupRepository.findById(groupId).orElse(null);
-		if (group != null) {
-			if (!group.isDelete()) {
-				group.setDelete(true);
-				groupRepository.save(group);
-				return HttpStatus.OK;
-			} else {
-				group.setDelete(false);
-				groupRepository.save(group);
-				return HttpStatus.OK;
-			}
-		} else {
+		
+		if (group == null) {
 			return HttpStatus.NOT_FOUND;// tapilmadi
 		}
+	
+		group.setDelete(!group.isDelete());
+		groupRepository.save(group);
+		return HttpStatus.OK;
+		
 	}
 
 }

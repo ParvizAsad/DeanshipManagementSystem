@@ -2,7 +2,6 @@ package com.parvizasad.deanshipMS.controller;
 
 import java.util.List;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,23 +29,33 @@ public class RoomTypeController {
 	public List<RoomType> getAllRoomType() {
 		return roomTypeService.getAllRoomType();
 	}
-
+	
+	@GetMapping("/passivRoomType")
+	public List<RoomType> getAllPassivRoomTypes() {
+		return roomTypeService.getAllPassivRoomTypes();
+	}
+	
+	@GetMapping("/activeRoomType")
+	public List<RoomType> getAllActiveRoomTypes() {
+		return roomTypeService.getAllActiveRoomTypes();
+	}
+	
 	@PostMapping
-	public ResponseEntity<Object> createRoomType(@RequestBody RoomType newRoomType) {
+	public Object createRoomType(@RequestBody RoomType newRoomType) {
 		return roomTypeService.createRoomType(newRoomType);
 	}
 
-	@GetMapping("/{roonTypeId}")
-	public ResponseEntity<Object> getById(@PathVariable Long roomTypeId) {
+	@GetMapping("/{roomTypeId}")
+	public Object getById(@PathVariable Long roomTypeId) {
 		return roomTypeService.getById(roomTypeId);
 	}
 
-	@PutMapping("/{roonTypeId}")
-	public ResponseEntity<Object> updateRoomType(@PathVariable Long roomTypeId, @RequestBody RoomType newRoomType) {
+	@PutMapping("/{roomTypeId}")
+	public Object updateRoomType(@PathVariable Long roomTypeId, @RequestBody RoomType newRoomType) {
 		return roomTypeService.updateRoomType(roomTypeId, newRoomType);
 	}
 
-	@DeleteMapping("/{roonTypeId}")
+	@DeleteMapping("/{roomTypeId}")
 	public void deleteRoomType(@PathVariable Long roomTypeId) {
 		roomTypeService.deleteById(roomTypeId);
 	}

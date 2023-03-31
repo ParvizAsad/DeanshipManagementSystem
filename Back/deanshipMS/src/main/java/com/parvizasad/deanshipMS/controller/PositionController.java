@@ -2,7 +2,6 @@ package com.parvizasad.deanshipMS.controller;
 
 import java.util.List;
 
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,24 +24,33 @@ public class PositionController {
 	public PositionController(PositionService positionService) {
 		this.positionService = positionService;
 	}
-	
 	@GetMapping
 	public List<Position> getAllPositions() {
 		return positionService.getAllPositions();
 	}
-
+	
+	@GetMapping("/passivPosition")
+	public List<Position> getAllPassivGroup() {
+		return positionService.getAllPassivPositions();
+	}
+	
+	@GetMapping("/activePosition")
+	public List<Position> getAllActiveGroup() {
+		return positionService.getAllActivePositions();
+	}
+	
 	@PostMapping
-	public ResponseEntity<Object> createPosition(@RequestBody Position newPosition) {
+	public Object createPosition(@RequestBody Position newPosition) {
 		return positionService.createPosition(newPosition);
 	}
 
 	@GetMapping("/{positionId}")
-	public  ResponseEntity<Object> getById(@PathVariable Long positionId) {
+	public Object getById(@PathVariable Long positionId) {
 		return positionService.getById(positionId);
 	}
 	
 	@PutMapping("/{positionId}")
-	public ResponseEntity<Object> updatePosition(@PathVariable Long positionId, @RequestBody Position newPosition) {
+	public Object updatePosition(@PathVariable Long positionId, @RequestBody Position newPosition) {
 		return positionService.updatePosition(positionId, newPosition);
 	}
 	
