@@ -56,7 +56,7 @@ public class MajorController {
 	}
 
 	@DeleteMapping("/{majorId}")
-	public void deleteMajor(@PathVariable Long majorId) {
-		majorService.deleteById(majorId);
+	public Object deleteMajor(@PathVariable Long majorId) {
+		return	majorService.deleteById(majorId);
 	}
 }

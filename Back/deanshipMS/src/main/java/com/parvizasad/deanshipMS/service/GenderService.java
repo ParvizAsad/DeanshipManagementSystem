@@ -58,7 +58,7 @@ public class GenderService {
 
 	public Object getById(Long genderId) {
 		Gender gender = genderRepository.findById(genderId).orElse(null);
-		if (gender != null) {
+		if (gender == null) {
 			return HttpStatus.NOT_FOUND;
 		} 
 			return gender;

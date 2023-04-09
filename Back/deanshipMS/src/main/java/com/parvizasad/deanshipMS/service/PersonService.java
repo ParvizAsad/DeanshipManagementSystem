@@ -60,7 +60,7 @@ public class PersonService {
 	
 	public Object getById(Long personId) {
 		Person person = personRepository.findById(personId).orElse(null);
-		if (person != null) {
+		if (person == null) {
 			return HttpStatus.NOT_FOUND;
 		} 
 		return person;

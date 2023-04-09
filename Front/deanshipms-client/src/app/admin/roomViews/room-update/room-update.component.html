@@ -1,0 +1,52 @@
+<app-navbar></app-navbar>
+
+<div
+  [ngClass]="
+    errorText != null
+      ? 'visually d-flex justify-content-center mt-7'
+      : 'visually-hidden'
+  "
+>
+  <span class="errorText">{{ errorText }}</span>
+</div>
+
+<div class="container">
+  <form novalidate (ngSubmit)="updateRoom(f)" #f="ngForm">
+    <fieldset ngModelGroup="name">
+      <div class="form-group">
+        <label class="form-label" for="form8Example3">Otağın növü</label>
+        <br />
+
+        <select [(ngModel)]="room.roomType" required>
+          <option *ngFor="let roomType of roomTypes" [value]="roomType.id" [selected]="room.roomType" >
+            {{ roomType.name }}
+          </option>
+        </select>
+
+        <br />
+        <label class="form-label" for="form8Example3">Otaq nömrəsi</label>
+        <input
+          type="number"
+          id="form8Example3"
+          class="form-control"
+          [(ngModel)]="room.roomNumber"
+           name="roomNumber"
+          required
+          #name="ngModel"
+        />
+        <label class="form-label" for="form8Example3">Tələbə tutumu</label>
+        <input
+          type="number"
+          id="form8Example3"
+          class="form-control"
+          [(ngModel)]="room.capacity"
+          name="capacity"
+          required
+          #name="ngModel"
+        />
+      </div>
+    </fieldset>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>

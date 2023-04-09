@@ -17,7 +17,7 @@ import com.parvizasad.deanshipMS.service.RoomService;
 
 @CrossOrigin(origins = { "*" }, allowCredentials = "false")
 @RestController
-@RequestMapping("/room")
+@RequestMapping("/rooms")
 public class RoomController {
 	private RoomService roomService;
 
@@ -55,7 +55,7 @@ public class RoomController {
 	}
 
 	@DeleteMapping("/{roomId}")
-	public void deleteRoom(@PathVariable Long roomId) {
-		roomService.deleteById(roomId);
+	public Object deleteRoom(@PathVariable Long roomId) {
+		return	roomService.deleteById(roomId);
 	}
 }

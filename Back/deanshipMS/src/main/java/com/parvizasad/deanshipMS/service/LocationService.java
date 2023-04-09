@@ -59,7 +59,7 @@ public class LocationService {
 
 	public Object getById(Long locationId) {
 		Location location = locationRepository.findById(locationId).orElse(null);
-		if (location != null) {
+		if (location == null) {
 			return HttpStatus.NOT_FOUND;
 		} 
 		return location;

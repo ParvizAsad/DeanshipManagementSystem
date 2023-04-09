@@ -47,6 +47,18 @@ import { Lesson } from './core/models/Lesson.models';
 import { MajorComponent } from './admin/majorViews/major/major.component';
 import { MajorUpdateComponent } from './admin/majorViews/major-update/major-update.component';
 import { MajorCreateComponent } from './admin/majorViews/major-create/major-create.component';
+import { DegreeCreateComponent } from './admin/degreeViews/degree-create/degree-create.component';
+import { DegreeComponent } from './admin/degreeViews/degree/degree.component';
+import { DegreeUpdateComponent } from './admin/degreeViews/degree-update/degree-update.component';
+import { PositionComponent } from './admin/positionViews/position/position.component';
+import { PositinCreateComponent } from './admin/positionViews/positin-create/positin-create.component';
+import { PositionUpdateComponent } from './admin/positionViews/position-update/position-update.component';
+import { RoomTypeComponent } from './admin/lessonTypeViews/room-type/room-type.component';
+import { RoomTypeCreateComponent } from './admin/lessonTypeViews/room-type-create/room-type-create.component';
+import { RoomTypeUpdateComponent } from './admin/lessonTypeViews/room-type-update/room-type-update.component';
+import { RoomComponent } from './admin/roomViews/room/room.component';
+import { RoomCreateComponent } from './admin/roomViews/room-create/room-create.component';
+import { RoomUpdateComponent } from './admin/roomViews/room-update/room-update.component';
 const routes: Routes = [
 {path:"student", component:StudentComponent},
 {path:"login", component:LoginComponent},
@@ -70,18 +82,36 @@ const routes: Routes = [
 {path:"majorCreate", component:MajorCreateComponent},
 {path:"majorEdit/:id", component:MajorUpdateComponent},
 
+{path:"rooms", component:RoomComponent},
+{path:"roomCreate", component:RoomCreateComponent},
+{path:"roomEdit/:id", component:RoomUpdateComponent},
+
+{path:"degrees", component:DegreeComponent},
+{path:"degreeCreate", component:DegreeCreateComponent},
+{path:"degreeEdit/:id", component:DegreeUpdateComponent},
+
+{path:"positions", component:PositionComponent},
+{path:"positionCreate", component:PositinCreateComponent},
+{path:"positionEdit/:id", component:PositionUpdateComponent},
+
+{path:"roomTypes", component:RoomTypeComponent},
+{path:"roomTypeCreate", component:RoomTypeCreateComponent},
+{path:"roomTypeEdit/:id", component:RoomTypeUpdateComponent},
+
 {path:"genders", component:GenderComponent},
-{path:"genderEdit/:id", component:GenderUpdateComponent},
 {path:"genderCreate", component:GenderCreateComponent},
+{path:"genderEdit/:id", component:GenderUpdateComponent},
+
 {path:"locations", component:LocationComponent},
 {path:"locationCreate", component:LocationCreateComponent},
 {path:"locationEdit/:id", component:LocationUpdateComponent},
+
 {path:"settings", component:SettingsComponent},
 {path:"employee", component:EmployeeComponent},
-{path:"", component:HomeComponent},
 
 {path:"teacherModule", component:TeacherModuleComponent},
-{path:"employeeModule", component:EmployeeModuleComponent}
+{path:"employeeModule", component:EmployeeModuleComponent},
+{path:"", component:HomeComponent}
 ];
 
 @NgModule({
@@ -92,10 +122,12 @@ const routes: Routes = [
     HomeComponent,
     TeacherComponent,
     CardComponent,
+    
     LoginComponent,
+    RegisterComponent,
+
     EmployeeComponent,
     SettingsComponent,
-    RegisterComponent,
     PersonComponent,
     PersonRegistrationComponent,
     
@@ -103,6 +135,7 @@ const routes: Routes = [
     GenderCreateComponent,
     GenderUpdateComponent,
     
+
     LocationComponent,
     LocationCreateComponent,
     LocationUpdateComponent,
@@ -132,6 +165,21 @@ const routes: Routes = [
    MajorComponent,
    MajorUpdateComponent,
    MajorCreateComponent,
+
+   DegreeComponent,
+   DegreeCreateComponent,
+   DegreeUpdateComponent,
+
+   PositionComponent,
+   PositinCreateComponent,
+   PositionUpdateComponent,
+
+   RoomTypeComponent,
+   RoomTypeCreateComponent,
+   RoomTypeUpdateComponent,
+   RoomComponent,
+   RoomCreateComponent,
+   RoomUpdateComponent,
   ],
   imports: [
     BrowserModule,

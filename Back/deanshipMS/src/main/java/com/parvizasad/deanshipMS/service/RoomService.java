@@ -58,7 +58,7 @@ public class RoomService {
 
 	public Object getById(Long roomId) {
 		Room room = roomRepository.findById(roomId).orElse(null);
-		if (room != null) {
+		if (room == null) {
 			return HttpStatus.NOT_FOUND;
 		}
 		return room;

@@ -59,7 +59,7 @@ public class PositionService {
 
 	public Object getById(Long positionId) {
 		Position position = positionRepository.findById(positionId).orElse(null);
-		if (position != null) {
+		if (position == null) {
 			return HttpStatus.NOT_FOUND;
 		} 
 		return position;

@@ -59,7 +59,7 @@ public class GroupService {
 
 	public Object getById(Long groupId) {
 		Group group = groupRepository.findById(groupId).orElse(null);
-		if (group != null) {
+		if (group == null) {
 			return HttpStatus.NOT_FOUND;
 		} 
 			return group;

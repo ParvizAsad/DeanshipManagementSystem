@@ -17,7 +17,7 @@ import com.parvizasad.deanshipMS.service.GroupService;
 
 @CrossOrigin(origins = { "*" })
 @RestController
-@RequestMapping("/groups")
+@RequestMapping("/group")
 public class GroupController {
 	private GroupService groupService;
 

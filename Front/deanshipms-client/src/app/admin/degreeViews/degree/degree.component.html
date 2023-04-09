@@ -1,0 +1,103 @@
+<app-navbar></app-navbar>
+
+<div class="container mt-5">
+  <button
+    type="button"
+    class="btn btn-success me-3"
+    routerLink="/degreeCreate"
+  >
+    Create
+  </button>
+  <div class="btn-group btn-group-toggle demoFroms" data-toggle="buttons">
+    <label class="btn btn-secondary active">
+      <input
+        type="radio"
+        value="All"
+        name="options"
+        id="All"
+        autocomplete="off"
+        checked
+        (change)="onItemChange('All')"
+      />
+      All
+    </label>
+    <label class="btn btn-secondary">
+      <input
+        type="radio"
+        value="Active"
+        name="options"
+        id="radio"
+        autocomplete="off"
+        (change)="onItemChange('Active')"
+      />
+      Active
+    </label>
+    <label class="btn btn-secondary">
+      <input
+        type="radio"
+        value="Passiv"
+        name="options"
+        id="radio"
+        autocomplete="off"
+        (change)="onItemChange('Passiv')"
+      />
+      Passiv
+    </label>
+  </div>
+
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">degree Name</th>
+        <th scope="col">Action</th>
+      </tr>
+    </thead>
+    <tbody>
+
+      <div
+        [ngClass]="loading ? 'visually' : 'visually-hidden'"
+        class="d-flex justify-content-center mt-5" >
+        <div class="spinner-border" role="status"></div>
+        <span class="visually-none">Loading...</span>
+      </div>
+
+<div
+ [ngClass]="errorText!=null ? 'visually d-flex justify-content-center mt-7' :
+  'visually-hidden'"
+  >
+<span class="errorText">{{errorText}}</span>
+</div>
+  <div
+        [ngClass]="
+          degrees.length == 0 && !loading
+            ? 'visually d-flex justify-content-center mt-7'
+            : 'visually-hidden'
+        "
+      >
+        <span class="errorText">Mövcud element yoxdur!</span>
+      </div>
+      <tr *ngFor="let item of degrees">
+        <td>{{ item.name }}</td>
+        <td>
+          <button
+            type="button"
+            class="btn btn-primary me-3"
+            [routerLink]="['/degreeEdit', item.id]"
+          >
+            Edit
+          </button>
+          <button
+            type="button"
+            [ngClass]="
+              item.isDelete ? 'btn btn-success me-3' : 'btn btn-danger  me-3'
+            "
+            (click)="changeActivate(item.id, item.isDelete)"
+          >
+            <h4 *ngIf="item.isDelete">Active</h4>
+            <h4 *ngIf="!item.isDelete">DisActive</h4>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

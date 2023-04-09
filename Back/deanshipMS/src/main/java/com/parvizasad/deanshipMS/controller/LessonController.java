@@ -57,8 +57,8 @@ public class LessonController {
 	}
 
 	@DeleteMapping("/{lessonId}")
-	public void deleteLesson(@PathVariable Long lessonId) {
-		lessonService.deleteById(lessonId);
+	public Object deleteLesson(@PathVariable Long lessonId) {
+		return lessonService.deleteById(lessonId);
 	}
 
 }

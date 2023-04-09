@@ -42,8 +42,7 @@ public class RoomTypeService {
 		}
 		return passivRoomTypeList;
 	}
-
-	/// davam et buradan
+	
 	public Object createRoomType(RoomType newRoomType) {
 		RoomType existingRoomType = roomTypeRepository.findByName(newRoomType.getName()).orElse(null);
 
@@ -60,7 +59,7 @@ public class RoomTypeService {
 
 	public Object getById(Long roomTypeId) {
 		RoomType roomType = roomTypeRepository.findById(roomTypeId).orElse(null);
-		if (roomType != null) {
+		if (roomType == null) {
 			return HttpStatus.NOT_FOUND;
 		}
 		return roomType;
