@@ -1,5 +1,4 @@
 import { RoomType } from "./RoomType.models";
-
 export class Room{
     id:number=0; 
     roomType:RoomType = 

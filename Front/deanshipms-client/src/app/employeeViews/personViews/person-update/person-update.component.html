@@ -1,0 +1,115 @@
+<app-navbar></app-navbar>
+
+<div
+  [ngClass]="
+    errorText != null
+      ? 'visually d-flex justify-content-center mt-7'
+      : 'visually-hidden'
+  "
+>
+  <span class="errorText">{{ errorText }}</span>
+</div>
+
+<div class="container">
+  <form novalidate (ngSubmit)="updatePerson(f)" #f="ngForm">
+    <fieldset ngModelGroup="name">
+      <div class="form-group">
+        <br />
+        <label class="form-label" for="form8Example3">Ad, soyad</label>
+        <input
+          type="text"
+          id="form8Example3"
+          class="form-control"
+          [(ngModel)]="person.fullName"
+          name="fullName"
+          required
+          #name="ngModel"
+        />
+
+        <label class="form-label" for="form8Example3">Doğum tarixi</label>
+        <input
+          type="date"
+          id="form8Example3"
+          class="form-control"
+          [(ngModel)]="person.birthDate"
+          name="formattedDateTime"
+          required
+          #name="ngModel"
+        />
+
+        <label class="form-label" for="form8Example3">Telefon Nömrəsi</label>
+        <input
+          type="text"
+          id="form8Example3"
+          class="form-control"
+          [(ngModel)]="person.phno"
+          name="phno"
+          required
+          #name="ngModel"
+        />
+
+       <label class="form-label" for="form8Example3">Email</label>
+        <input
+          type="text"
+          id="form8Example3"
+          class="form-control"
+          [(ngModel)]="person.email"
+          name="email"
+          required
+          #name="ngModel"
+        />
+
+ <label class="form-label" for="form8Example3">Fin kod</label>
+        <input
+          type="text"
+          id="form8Example3"
+          class="form-control"
+          [(ngModel)]="person.pasportId"
+          name="pasportId"
+          required
+          #name="ngModel"
+        />
+
+       <label class="form-label" for="form8Example3">Gender</label>
+        <select [(ngModel)]="person.gender" required>
+          <option
+            *ngFor="let gender of genders"
+            [value]="gender.id"
+            [selected]="person.gender"
+          >
+            {{ gender.name }}
+          </option>
+        </select>
+        <br />
+
+            <label class="form-label" for="form8Example3">Position</label>
+        <select [(ngModel)]="person.position" required>
+          <option
+            *ngFor="let position of positions"
+            [value]="position.id"
+            [selected]="person.position"
+          >
+            {{ position.name }}
+          </option>
+        </select>
+        <br />
+
+         <label class="form-label" for="form8Example3">Location</label>
+        <select [(ngModel)]="person.location" required>
+          <option
+            *ngFor="let location of locations"
+            [value]="location.id"
+            [selected]="person.location"
+          >
+            {{ location.name }}
+          </option>
+        </select>
+        <br />
+
+
+      </div>
+    </fieldset>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+</div>

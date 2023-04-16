@@ -46,13 +46,14 @@ public class Person {
 	@JoinColumn(name="location_id", nullable=false)
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	Location location;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name="position_id", nullable=false)
+	@OnDelete(action = OnDeleteAction.CASCADE)
+	Position position;
 	
 	@NotNull
 	public boolean isDelete = false;
 
-	public Person orElse(Object object) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }

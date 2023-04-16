@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertifyService } from 'src/app/core/services/alertifyService/alertify.service';
-import { HttpResponse } from '@angular/common/http';
-import { response } from 'express';
 import { Room } from 'src/app/core/models/Room.models';
 import { RoomServiceService } from 'src/app/core/services/roomService/room-service.service';
 import { RoomTypeServiceService } from 'src/app/core/services/roomTypeService/room-type-service.service';
 import { RoomType } from 'src/app/core/models/RoomType.models';
-import { Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-room-create',

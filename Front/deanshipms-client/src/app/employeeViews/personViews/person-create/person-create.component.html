@@ -1,0 +1,91 @@
+<app-navbar></app-navbar>
+
+<div
+  [ngClass]="
+    errorText != null
+      ? 'visually d-flex justify-content-center mt-7'
+      : 'visually-hidden'
+  "
+>
+  <span class="errorText">{{ errorText }}</span>
+</div>
+
+<div class="container mt-5 d-flex justify-content-center">
+  <div class="row">
+    <div class="col-12">
+      <div class="form-outline">
+        <label class="form-label" for="form8Example3">Ad, soyad</label>
+        <input
+          type="text"
+          id="form8Example3"
+          class="form-control"
+          [(ngModel)]="person.fullName"
+        />
+
+        <label class="form-label" for="form8Example3">Doğum tarixi</label>
+        <input
+          type="date"
+          id="form8Example3"
+          class="form-control"
+          [(ngModel)]="person.birthDate"
+        />
+
+        <label class="form-label" for="form8Example3">Telefon Nömrəsi</label>
+        <input
+          type="text"
+          id="form8Example3"
+          class="form-control"
+          [(ngModel)]="person.phno"
+        />
+
+        <label class="form-label" for="form8Example3">Email</label>
+        <input
+          type="text"
+          id="form8Example3"
+          class="form-control"
+          [(ngModel)]="person.email"
+        />
+
+        <label class="form-label" for="form8Example3">Fin kod</label>
+        <input
+          type="text"
+          id="form8Example3"
+          class="form-control"
+          [(ngModel)]="person.pasportId"
+        />
+
+        <label class="form-label" for="form8Example3">Gender</label>
+        <br />
+        <select [(ngModel)]="person.gender.id" required>
+          <option *ngFor="let gender of genders" [value]="gender.id">
+            {{ gender.name }}
+          </option>
+        </select>
+        <br />
+
+              <label class="form-label" for="form8Example3">Position</label>
+        <br />
+        <select [(ngModel)]="person.position.id" required>
+          <option *ngFor="let position of positions" [value]="position.id">
+            {{ position.name }}
+          </option>
+        </select>
+        <br />
+
+        <label class="form-label" for="form8Example3">Location</label>
+        <br />
+        <select [(ngModel)]="person.location.id" required>
+          <option *ngFor="let location of locations" [value]="location.id">
+            {{ location.name }}
+          </option>
+        </select>
+        <br />
+
+
+      </div>
+      <button (click)="createPerson()" class="btn btn-success me-3 mt-2">
+        Create
+      </button>
+    </div>
+  </div>
+</div>

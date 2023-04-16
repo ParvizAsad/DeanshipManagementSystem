@@ -83,6 +83,8 @@ public class PersonService {
 		person.birthDate = newPerson.birthDate;
 		person.email = newPerson.email;
 		person.setLocation(newPerson.getLocation()); 
+		person.setGender(newPerson.getGender());
+		person.setPosition(newPerson.getPosition());
 		person.pasportId = newPerson.pasportId;
 		person.phno = newPerson.phno;
 		personRepository.save(person);

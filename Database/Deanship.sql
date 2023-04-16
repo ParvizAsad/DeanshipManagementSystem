@@ -129,16 +129,26 @@ studentid int REFERENCES student(id),
 score int not null
 )
 
-
 --table silmək
 DROP TABLE positions 
 DROP TABLE roomType 
 
 -- table adının dəyişilməsi
  ALTER TABLE roomType RENAME TO lessonType
- 
- 
- insert into "groups" 
-values ('p117'),
-		('p314')
- 
+
+ INSERT INTO groups (name)
+VALUES('P320');
+
+ INSERT INTO groups (name)
+VALUES('P317');
+
+ INSERT INTO lessontype  (name)
+VALUES('Laboratoriya'),('Mühazirə');
+
+
+ INSERT INTO location (name)
+VALUES('Sumqayıt'),('Bakı');
+
+ INSERT INTO gender (name)
+VALUES('Kişi'),('Qadın'), ('Digər');
+

@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name="gender")
+@Table(name = "gender")
 @Data
 @Getter
 @Setter
@@ -22,8 +22,8 @@ import lombok.Setter;
 public class Gender {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public	Long id;
-	
-	public	String name;
-public boolean isDelete=false;
+	public Long id;
+
+	public String name;
+	public boolean isDelete = false;
 }

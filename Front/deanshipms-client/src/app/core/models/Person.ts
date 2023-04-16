@@ -1,21 +1,34 @@
-export class Student{
-    fullName:string;
-    id:number;
-    locationId:number;
-    genderId:number;
-    birtDate:Date;
-    username:string;
-    email:string;
+import { Gender } from "./Gender.models";
+import { Location } from "./Location.models";
+import { Position } from "./Position.models";
+export class Person{
+  id:number=0; 
+  pasportId:string="";
+  fullName:string="";
+  birthDate:Date=new Date;	
+  phno:string="";
+  email:string="";
+  gender:Gender ={
+    "id":0,
+    "name":"",
+    "isDelete":false,
+    "delete":false
+  };
+
+  location:Location={
+    "id":0,
+    "name":"",
+    "isDelete":false,
+    "delete":false
+  };
   
-    constructor(fullName: string,id: number, username: string, email: string, locationId:number, 
-    genderId:number, birtDate:Date) {
-      this.fullName = fullName;
-      this.id = id;
-      this.genderId=genderId;
-      this.locationId=locationId;
-      this.birtDate=birtDate;
-      this.username = username;
-      this.email = email;
-    }
+  position:Position={
+    "id":0,
+    "name":"",
+    "isDelete":false,
+    "delete":false
+  };
+  isDelete:boolean=false;
+  delete:boolean=false;
   }
   

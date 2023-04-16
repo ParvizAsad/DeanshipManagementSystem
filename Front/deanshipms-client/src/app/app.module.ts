@@ -16,8 +16,6 @@ import { LoginComponent } from './login/login.component';
 import { EmployeeComponent } from './employee/employee.component';
 import { SettingsComponent } from './settings/settings.component';
 import { RegisterComponent } from './register/register.component';
-import { PersonComponent } from './person/person.component';
-import { PersonRegistrationComponent } from './person-registration/person-registration.component'
 import { AlertifyService } from './core/services/alertifyService/alertify.service';
 import { HttpClientModule } from '@angular/common/http';
 import { GenderComponent } from './admin/genderViews/gender/gender.component';
@@ -59,11 +57,12 @@ import { RoomTypeUpdateComponent } from './admin/lessonTypeViews/room-type-updat
 import { RoomComponent } from './admin/roomViews/room/room.component';
 import { RoomCreateComponent } from './admin/roomViews/room-create/room-create.component';
 import { RoomUpdateComponent } from './admin/roomViews/room-update/room-update.component';
+import { PersonCreateComponent } from './employeeViews/personViews/person-create/person-create.component';
+import { PersonUpdateComponent } from './employeeViews/personViews/person-update/person-update.component';
+import { PersonComponent } from './employeeViews/personViews/person/person.component';
 const routes: Routes = [
 {path:"student", component:StudentComponent},
 {path:"login", component:LoginComponent},
-{path:"personRegistration", component:PersonRegistrationComponent},
-{path:"person", component:PersonComponent},
 {path:"department", component:DepartmentComponent},
 {path:"departmentEdit/:id", component:DepartmentUpdateComponent},
 {path:"departmentnCreate", component:DepartmenCreateComponent},
@@ -85,6 +84,10 @@ const routes: Routes = [
 {path:"rooms", component:RoomComponent},
 {path:"roomCreate", component:RoomCreateComponent},
 {path:"roomEdit/:id", component:RoomUpdateComponent},
+
+{path:"persons", component:PersonComponent},
+{path:"personCreate", component:PersonCreateComponent},
+{path:"personEdit/:id", component:PersonUpdateComponent},
 
 {path:"degrees", component:DegreeComponent},
 {path:"degreeCreate", component:DegreeCreateComponent},
@@ -128,8 +131,6 @@ const routes: Routes = [
 
     EmployeeComponent,
     SettingsComponent,
-    PersonComponent,
-    PersonRegistrationComponent,
     
     GenderComponent,
     GenderCreateComponent,
@@ -177,9 +178,14 @@ const routes: Routes = [
    RoomTypeComponent,
    RoomTypeCreateComponent,
    RoomTypeUpdateComponent,
+
    RoomComponent,
    RoomCreateComponent,
    RoomUpdateComponent,
+
+   PersonComponent,
+   PersonCreateComponent,
+   PersonUpdateComponent,
   ],
   imports: [
     BrowserModule,

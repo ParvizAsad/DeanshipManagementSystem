@@ -24,6 +24,6 @@ public class Position {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	public Long id;
 	
-	public	String name;
+	public String name;
 	public boolean isDelete= false;
 }
